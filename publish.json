@@ -1,0 +1,13 @@
+{
+    "excludes": [
+        "move-dll.bat",
+        "publish.bat",
+        "publish.json",
+        "Version Notes.txt",
+        ".gitignore",
+        ".git/",
+        "Source/"
+    ],
+    "outputFolder": "G:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\PriorityMaster",
+    "cleanOutput": true
+}

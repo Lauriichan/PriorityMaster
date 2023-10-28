@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <Priority0>Will never do</Priority0>
+    <Priority1>Will definitely do</Priority1>
+    <Priority2>Will definitely do</Priority2>
+    <Priority3>Will definitely do</Priority3>
+    <Priority4>Will definitely do</Priority4>
+    <Priority5>Will definitely do</Priority5>
+    <Priority6>Will definitely do</Priority6>
+    <Priority7>Will definitely do</Priority7>
+    <Priority8>Will definitely do</Priority8>
+    <Priority9>Will definitely do</Priority9>
+    <Priority10>Will definitely do</Priority10>
+    <Priority11>Will definitely do</Priority11>
+    <Priority12>Will definitely do</Priority12>
+    <Priority13>Will definitely do</Priority13>
+    <Priority14>Will definitely do</Priority14>
+    <Priority15>Will definitely do</Priority15>
+    <Priority16>Will definitely do</Priority16>
+    <Priority17>Will definitely do</Priority17>
+    <Priority18>Will definitely do</Priority18>
+    <Priority19>Will definitely do</Priority19>
+    <Priority20>Will definitely do</Priority20>
+    <Priority21>Will do</Priority21>
+    <Priority22>Will do</Priority22>
+    <Priority23>Will do</Priority23>
+    <Priority24>Will do</Priority24>
+    <Priority25>Will do</Priority25>
+    <Priority26>Will do</Priority26>
+    <Priority27>Will do</Priority27>
+    <Priority28>Will do</Priority28>
+    <Priority29>Will do</Priority29>
+    <Priority30>Will do</Priority30>
+    <Priority31>Will do</Priority31>
+    <Priority32>Will do</Priority32>
+    <Priority33>Will do</Priority33>
+    <Priority34>Will do</Priority34>
+    <Priority35>Will do</Priority35>
+    <Priority36>Will do</Priority36>
+    <Priority37>Will do</Priority37>
+    <Priority38>Will do</Priority38>
+    <Priority39>Will do</Priority39>
+    <Priority40>Will do</Priority40>
+    <Priority41>Will possibly do</Priority41>
+    <Priority42>Will possibly do</Priority42>
+    <Priority43>Will possibly do</Priority43>
+    <Priority44>Will possibly do</Priority44>
+    <Priority45>Will possibly do</Priority45>
+    <Priority46>Will possibly do</Priority46>
+    <Priority47>Will possibly do</Priority47>
+    <Priority48>Will possibly do</Priority48>
+    <Priority49>Will possibly do</Priority49>
+    <Priority50>Will possibly do</Priority50>
+    <Priority51>Will possibly do</Priority51>
+    <Priority52>Will possibly do</Priority52>
+    <Priority53>Will possibly do</Priority53>
+    <Priority54>Will possibly do</Priority54>
+    <Priority55>Will possibly do</Priority55>
+    <Priority56>Will possibly do</Priority56>
+    <Priority57>Will possibly do</Priority57>
+    <Priority58>Will possibly do</Priority58>
+    <Priority59>Will possibly do</Priority59>
+    <Priority60>Will possibly do</Priority60>
+    <Priority61>Will do if bored</Priority61>
+    <Priority62>Will do if bored</Priority62>
+    <Priority63>Will do if bored</Priority63>
+    <Priority64>Will do if bored</Priority64>
+    <Priority65>Will do if bored</Priority65>
+    <Priority66>Will do if bored</Priority66>
+    <Priority67>Will do if bored</Priority67>
+    <Priority68>Will do if bored</Priority68>
+    <Priority69>Will do if bored</Priority69>
+    <Priority70>Will do if bored</Priority70>
+    <Priority71>Will do if bored</Priority71>
+    <Priority72>Will do if bored</Priority72>
+    <Priority73>Will do if bored</Priority73>
+    <Priority74>Will do if bored</Priority74>
+    <Priority75>Will do if bored</Priority75>
+    <Priority76>Will do if bored</Priority76>
+    <Priority77>Will do if bored</Priority77>
+    <Priority78>Will do if bored</Priority78>
+    <Priority79>Will do if bored</Priority79>
+    <Priority80>Will do if bored</Priority80>
+    <Priority81>Will almost never do</Priority81>
+    <Priority82>Will almost never do</Priority82>
+    <Priority83>Will almost never do</Priority83>
+    <Priority84>Will almost never do</Priority84>
+    <Priority85>Will almost never do</Priority85>
+    <Priority86>Will almost never do</Priority86>
+    <Priority87>Will almost never do</Priority87>
+    <Priority88>Will almost never do</Priority88>
+    <Priority89>Will almost never do</Priority89>
+    <Priority90>Will almost never do</Priority90>
+    <Priority91>Will almost never do</Priority91>
+    <Priority92>Will almost never do</Priority92>
+    <Priority93>Will almost never do</Priority93>
+    <Priority94>Will almost never do</Priority94>
+    <Priority95>Will almost never do</Priority95>
+    <Priority96>Will almost never do</Priority96>
+    <Priority97>Will almost never do</Priority97>
+    <Priority98>Will almost never do</Priority98>
+    <Priority99>Will almost never do</Priority99>
+
+    <PriorityMaster>Priority Master</PriorityMaster>
+
+    <highestPriority>Highest priority</highestPriority>
+    <defaultPriority>Default priority</defaultPriority>
+
+    <enableGradient>Enable gradient</enableGradient>
+    <gradientTooltip>Gradient between two colors</gradientTooltip>
+
+    <reverseGradient>Reverse gradient</reverseGradient>
+    <reverseGradientTooltip>Choose if the gradient should be from color 1 to 2 or from color 2 to 1</reverseGradientTooltip>
+
+    <color.red>Red</color.red>
+    <color.green>Green</color.green>
+    <color.blue>Blue</color.blue>
+    <color.hue>Hue</color.hue>
+    <color.saturation>Saturation</color.saturation>
+    <color.lightness>Lightness</color.lightness>
+    <color.hex>Hex</color.hex>
+</LanguageData>

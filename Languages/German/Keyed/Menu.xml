@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <Priority0>Macht es nie</Priority0>
+    <Priority1>Macht es auf jedenfall</Priority1>
+    <Priority2>Macht es auf jedenfall</Priority2>
+    <Priority3>Macht es auf jedenfall</Priority3>
+    <Priority4>Macht es auf jedenfall</Priority4>
+    <Priority5>Macht es auf jedenfall</Priority5>
+    <Priority6>Macht es auf jedenfall</Priority6>
+    <Priority7>Macht es auf jedenfall</Priority7>
+    <Priority8>Macht es auf jedenfall</Priority8>
+    <Priority9>Macht es auf jedenfall</Priority9>
+    <Priority10>Macht es auf jedenfall</Priority10>
+    <Priority11>Macht es auf jedenfall</Priority11>
+    <Priority12>Macht es auf jedenfall</Priority12>
+    <Priority13>Macht es auf jedenfall</Priority13>
+    <Priority14>Macht es auf jedenfall</Priority14>
+    <Priority15>Macht es auf jedenfall</Priority15>
+    <Priority16>Macht es auf jedenfall</Priority16>
+    <Priority17>Macht es auf jedenfall</Priority17>
+    <Priority18>Macht es auf jedenfall</Priority18>
+    <Priority19>Macht es auf jedenfall</Priority19>
+    <Priority20>Macht es auf jedenfall</Priority20>
+    <Priority21>Macht es</Priority21>
+    <Priority22>Macht es</Priority22>
+    <Priority23>Macht es</Priority23>
+    <Priority24>Macht es</Priority24>
+    <Priority25>Macht es</Priority25>
+    <Priority26>Macht es</Priority26>
+    <Priority27>Macht es</Priority27>
+    <Priority28>Macht es</Priority28>
+    <Priority29>Macht es</Priority29>
+    <Priority30>Macht es</Priority30>
+    <Priority31>Macht es</Priority31>
+    <Priority32>Macht es</Priority32>
+    <Priority33>Macht es</Priority33>
+    <Priority34>Macht es</Priority34>
+    <Priority35>Macht es</Priority35>
+    <Priority36>Macht es</Priority36>
+    <Priority37>Macht es</Priority37>
+    <Priority38>Macht es</Priority38>
+    <Priority39>Macht es</Priority39>
+    <Priority40>Macht es</Priority40>
+    <Priority41>Macht es möglicherweise</Priority41>
+    <Priority42>Macht es möglicherweise</Priority42>
+    <Priority43>Macht es möglicherweise</Priority43>
+    <Priority44>Macht es möglicherweise</Priority44>
+    <Priority45>Macht es möglicherweise</Priority45>
+    <Priority46>Macht es möglicherweise</Priority46>
+    <Priority47>Macht es möglicherweise</Priority47>
+    <Priority48>Macht es möglicherweise</Priority48>
+    <Priority49>Macht es möglicherweise</Priority49>
+    <Priority50>Macht es möglicherweise</Priority50>
+    <Priority51>Macht es möglicherweise</Priority51>
+    <Priority52>Macht es möglicherweise</Priority52>
+    <Priority53>Macht es möglicherweise</Priority53>
+    <Priority54>Macht es möglicherweise</Priority54>
+    <Priority55>Macht es möglicherweise</Priority55>
+    <Priority56>Macht es möglicherweise</Priority56>
+    <Priority57>Macht es möglicherweise</Priority57>
+    <Priority58>Macht es möglicherweise</Priority58>
+    <Priority59>Macht es möglicherweise</Priority59>
+    <Priority60>Macht es möglicherweise</Priority60>
+    <Priority61>Macht es wenn gelangweilt</Priority61>
+    <Priority62>Macht es wenn gelangweilt</Priority62>
+    <Priority63>Macht es wenn gelangweilt</Priority63>
+    <Priority64>Macht es wenn gelangweilt</Priority64>
+    <Priority65>Macht es wenn gelangweilt</Priority65>
+    <Priority66>Macht es wenn gelangweilt</Priority66>
+    <Priority67>Macht es wenn gelangweilt</Priority67>
+    <Priority68>Macht es wenn gelangweilt</Priority68>
+    <Priority69>Macht es wenn gelangweilt</Priority69>
+    <Priority70>Macht es wenn gelangweilt</Priority70>
+    <Priority71>Macht es wenn gelangweilt</Priority71>
+    <Priority72>Macht es wenn gelangweilt</Priority72>
+    <Priority73>Macht es wenn gelangweilt</Priority73>
+    <Priority74>Macht es wenn gelangweilt</Priority74>
+    <Priority75>Macht es wenn gelangweilt</Priority75>
+    <Priority76>Macht es wenn gelangweilt</Priority76>
+    <Priority77>Macht es wenn gelangweilt</Priority77>
+    <Priority78>Macht es wenn gelangweilt</Priority78>
+    <Priority79>Macht es wenn gelangweilt</Priority79>
+    <Priority80>Macht es wenn gelangweilt</Priority80>
+    <Priority81>Macht es fast nie</Priority81>
+    <Priority82>Macht es fast nie</Priority82>
+    <Priority83>Macht es fast nie</Priority83>
+    <Priority84>Macht es fast nie</Priority84>
+    <Priority85>Macht es fast nie</Priority85>
+    <Priority86>Macht es fast nie</Priority86>
+    <Priority87>Macht es fast nie</Priority87>
+    <Priority88>Macht es fast nie</Priority88>
+    <Priority89>Macht es fast nie</Priority89>
+    <Priority90>Macht es fast nie</Priority90>
+    <Priority91>Macht es fast nie</Priority91>
+    <Priority92>Macht es fast nie</Priority92>
+    <Priority93>Macht es fast nie</Priority93>
+    <Priority94>Macht es fast nie</Priority94>
+    <Priority95>Macht es fast nie</Priority95>
+    <Priority96>Macht es fast nie</Priority96>
+    <Priority97>Macht es fast nie</Priority97>
+    <Priority98>Macht es fast nie</Priority98>
+    <Priority99>Macht es fast nie</Priority99>
+
+    <PriorityMaster>Prioritäts Meister</PriorityMaster>
+
+    <highestPriority>Höchste Priorität</highestPriority>
+    <defaultPriority>Standart Priorität</defaultPriority>
+
+    <enableGradient>Verwende Farbverlauf</enableGradient>
+    <gradientTooltip>Farbverlauf zwischen zwei Farben</gradientTooltip>
+
+    <reverseGradient>Umgekehrter Farbverlauf</reverseGradient>
+    <reverseGradientTooltip>Wechsle zwischen einem Farbverlauf von Farbe 1 zu 2 oder Farbe 2 zu 1</reverseGradientTooltip>
+
+    <color.red>Rot</color.red>
+    <color.green>Grün</color.green>
+    <color.blue>Blau</color.blue>
+    <color.hue>Farbton</color.hue>
+    <color.saturation>Sättigung</color.saturation>
+    <color.lightness>Helligkeit</color.lightness>
+    <color.hex>Hex</color.hex>
+</LanguageData>
