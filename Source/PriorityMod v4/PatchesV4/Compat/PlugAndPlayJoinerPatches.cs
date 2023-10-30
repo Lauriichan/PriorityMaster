@@ -26,7 +26,7 @@ namespace PriorityMod.PatchesV4.Compat
             harmony.Patch(Reflection.Property("PlugAndPlayJoiner.PlugAndPlayJoinerModSetting", "PriorityByWorkTypeDefName").GetGetMethod(), transpiler: defaultPriorityTranspiler);
             harmony.Patch(Reflection.Property("PlugAndPlayJoiner.PlugAndPlayJoinerModSetting", "ProfessionalWorkPriorities").GetGetMethod(), transpiler: defaultPriorityTranspiler);
 
-            harmony.Patch(Reflection.Method("PlugAndPlayJoiner.PlugAndPlayJoinerModHandler", "DoSettingsWindowContents"), transpiler: PatchHelper.Method(() => GetAlterPrioMaxPriorityTranspiler(null, null)));
+            harmony.Patch(Reflection.Method("PlugAndPlayJoiner.PlugAndPlayJoinerModHandler", "DoSettingsWindowContents"), transpiler: PatchHelper.Method(() => GetAlterPrioMaxPriorityTranspiler(null, null), true));
 
         }
 
@@ -35,17 +35,16 @@ namespace PriorityMod.PatchesV4.Compat
             List<CodeInstruction> list = new List<CodeInstruction>();
             foreach (CodeInstruction instruction in instructions)
             { 
-                if (list.Count != 0)
+                if (list.Count > 1)
                 {
-                    CodeInstruction last = list.ElementAt(list.Count - 1);
-                    if (last.opcode == OpCodes.Ldloc_S && instruction.opcode == OpCodes.Ldc_I4_4)
+                    CodeInstruction last1 = list.ElementAt(list.Count - 2);
+                    CodeInstruction last2 = list.ElementAt(list.Count - 1);
+                    if (last1.opcode == OpCodes.Ldloc_S && last2.opcode == OpCodes.Ldc_I4_4 && instruction.opcode == OpCodes.Ble_S)
                     {
                         list.RemoveAt(list.Count - 1);
                         CodeInstruction newInstr = (new CodeInstruction(OpCodes.Call, Reflection.Method("PatchHook", "GetMaximumPriority")));
-                        instruction.MoveLabelsTo(newInstr);
+                        last2.MoveLabelsTo(newInstr);
                         list.Add(newInstr);
-                        list.Add(last);
-                        continue;
                     }
                 }
                 list.Add(instruction);
