@@ -6,23 +6,23 @@ namespace PriorityMod.PatchesV4
 {
     public static class PatchHelper
     {
-        public static HarmonyMethod Method(Expression<Action> action)
+        public static HarmonyMethod Method(Expression<Action> action, bool debug = false)
         {
-            return new HarmonyMethod(SymbolExtensions.GetMethodInfo(action))
+            return new HarmonyMethod(SymbolExtensions.GetMethodInfo(action), debug: debug)
             {
                 priority = 10000
             };
         }
-        public static HarmonyMethod Method<A>(Expression<Action<A>> action)
+        public static HarmonyMethod Method<A>(Expression<Action<A>> action, bool debug = false)
         {
-            return new HarmonyMethod(SymbolExtensions.GetMethodInfo(action))
+            return new HarmonyMethod(SymbolExtensions.GetMethodInfo(action), debug: debug)
             {
                 priority = 10000
             };
         }
-        public static HarmonyMethod Method<A, B>(Expression<Action<A, B>> action)
+        public static HarmonyMethod Method<A, B>(Expression<Action<A, B>> action, bool debug = false)
         {
-            return new HarmonyMethod(SymbolExtensions.GetMethodInfo(action))
+            return new HarmonyMethod(SymbolExtensions.GetMethodInfo(action), debug: debug)
             {
                 priority = 10000
             };

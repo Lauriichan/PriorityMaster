@@ -44,6 +44,7 @@
     <Compile Include="PatchesV4\Compat\PlugAndPlayJoinerPatches.cs" />
     <Compile Include="PatchesV4\PatchHelper.cs" />
     <Compile Include="PatchesV4\PatchSettings.cs" />
+    <Compile Include="PatchesV4\RestartPatches.cs" />
     <Compile Include="PatchesV4\UIPatches.cs" />
     <Compile Include="Settings\DisplayBuffer.cs" />
     <Compile Include="Tools\Listing_PriorityMod.cs" />

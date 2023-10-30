@@ -22,19 +22,15 @@ namespace PriorityMod.PatchesV4.Compat
             PatchSettings.Disable_EnableAndInitialize_Patch();
 
             HarmonyMethod defaultPriorityTranspiler = PatchHelper.Method(() => PriorityPatches.DefaultPriorityTranspiler(null, null));
-            Log.Message("GetAlterPriority");
-            harmony.Patch(Reflection.Method("PlugAndPlayJoiner.WorkPriorityInitTranspiler", "GetAlterPriority"), transpiler: defaultPriorityTranspiler);
-            Log.Message("PriorityByWorkTypeDefName");
-            harmony.Patch(Reflection.Property("PlugAndPlayJoiner.PlugAndPlayJoinerModSettings", "PriorityByWorkTypeDefName").GetGetMethod(), transpiler: defaultPriorityTranspiler);
-            Log.Message("ProfessionalWorkPriorities");
-            harmony.Patch(Reflection.Property("PlugAndPlayJoiner.PlugAndPlayJoinerModSettings", "ProfessionalWorkPriorities").GetGetMethod(), transpiler: defaultPriorityTranspiler);
+            harmony.Patch(Reflection.Method("PlugAndPlayJoiner.WorkPriorityInitTranspiler", "GetAlterPriority"), transpiler: PatchHelper.Method(() => GetAlterPrioDefaultPriorityTranspiler(null, null)));
+            harmony.Patch(Reflection.Property("PlugAndPlayJoiner.PlugAndPlayJoinerModSetting", "PriorityByWorkTypeDefName").GetGetMethod(), transpiler: defaultPriorityTranspiler);
+            harmony.Patch(Reflection.Property("PlugAndPlayJoiner.PlugAndPlayJoinerModSetting", "ProfessionalWorkPriorities").GetGetMethod(), transpiler: defaultPriorityTranspiler);
 
-            Log.Message("DoSettingsWindowContents");
-            harmony.Patch(Reflection.Method("PlugAndPlayJoiner.PlugAndPlayJoinerModHandler", "DoSettingsWindowContents"), transpiler: PatchHelper.Method(() => GetAlterPrioDefaultPriorityTranspiler(null, null)));
+            harmony.Patch(Reflection.Method("PlugAndPlayJoiner.PlugAndPlayJoinerModHandler", "DoSettingsWindowContents"), transpiler: PatchHelper.Method(() => GetAlterPrioMaxPriorityTranspiler(null, null)));
 
         }
 
-        public static IEnumerable<CodeInstruction> GetAlterPrioDefaultPriorityTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        public static IEnumerable<CodeInstruction> GetAlterPrioMaxPriorityTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
             List<CodeInstruction> list = new List<CodeInstruction>();
             foreach (CodeInstruction instruction in instructions)
@@ -44,19 +40,37 @@ namespace PriorityMod.PatchesV4.Compat
                     CodeInstruction last = list.ElementAt(list.Count - 1);
                     if (last.opcode == OpCodes.Ldloc_S && instruction.opcode == OpCodes.Ldc_I4_4)
                     {
-                        list.Add(new CodeInstruction(OpCodes.Callvirt, Reflection.Method("PatchHook", "GetMaximumPriority")));
+                        list.RemoveAt(list.Count - 1);
+                        CodeInstruction newInstr = (new CodeInstruction(OpCodes.Call, Reflection.Method("PatchHook", "GetMaximumPriority")));
+                        instruction.MoveLabelsTo(newInstr);
+                        list.Add(newInstr);
+                        list.Add(last);
                         continue;
                     }
                 }
                 list.Add(instruction);
             }
-            StringBuilder builder = new StringBuilder();
-            int idx = 0;
-            foreach (CodeInstruction ins in list)
+            return list;
+        }
+
+        public static IEnumerable<CodeInstruction> GetAlterPrioDefaultPriorityTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        {
+            List<CodeInstruction> list = new List<CodeInstruction>();
+            foreach (CodeInstruction instruction in instructions)
             {
-                builder.AppendLine((idx++) + ": " + ins.ToString());
+                if (list.Count != 0)
+                {
+                    CodeInstruction last = list.ElementAt(list.Count - 1);
+                    if (last.opcode == OpCodes.Ldc_I4_3 && (instruction.opcode == OpCodes.Ret || instruction.opcode == OpCodes.Stloc_0))
+                    {
+                        list.RemoveAt(list.Count - 1);
+                        CodeInstruction newInstr = new CodeInstruction(OpCodes.Call, Reflection.Method("PatchHook", "GetDefaultPriority"));
+                        last.MoveLabelsTo(newInstr);
+                        list.Add(newInstr);
+                    }
+                }
+                list.Add(instruction);
             }
-            Log.Error(builder.ToString());
             return list;
         }
 

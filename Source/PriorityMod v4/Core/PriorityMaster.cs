@@ -32,6 +32,8 @@ namespace PriorityMod.Core
                 
             harmony = new Harmony("Lauriichen.PriorityMod");
 
+            RestartPatches.Apply(harmony);
+
             CentricWorkPatches.Apply(harmony);
             FluffyWorkTabPatches.Apply(harmony);
             PlugAndPlayJoinerPatches.Apply(harmony);

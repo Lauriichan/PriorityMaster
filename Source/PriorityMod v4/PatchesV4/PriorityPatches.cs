@@ -19,7 +19,7 @@ namespace PriorityMod.PatchesV4
             {
                 harmony.Patch(Reflection.Method("Pawn_WorkSettings", "GetPriority"), transpiler: defaultPriorityTranspiler);
             }
-            if (PatchSettings.Patch_GetPriority)
+            if (PatchSettings.Patch_EnableAndInitialize)
             {
                 harmony.Patch(Reflection.Method("Pawn_WorkSettings", "EnableAndInitialize"), transpiler: defaultPriorityTranspiler);
             }
