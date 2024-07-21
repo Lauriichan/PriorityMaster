@@ -5,7 +5,6 @@ using PriorityMod.Tools;
 using PriorityMod.Settings;
 using Verse;
 using UnityEngine;
-using static Verse.ParseHelper;
 
 namespace PriorityMod.Core
 {
@@ -26,8 +25,6 @@ namespace PriorityMod.Core
                 return;
             }
             startup = true;
-
-            Parsers<Tools.SimpleColor>.Register(Tools.SimpleColor.sRGB);
 
             settings = GetSettings<PrioritySettings>();
 
@@ -71,7 +68,7 @@ namespace PriorityMod.Core
 
             settingsListing.NewColumn();
 
-            settingsListing.LabeledNumericSliderInt("defaultPriority".Translate() + "   ", ref settings.buffer.priorityDefRef, ref settings.buffer.defPriority, PrioritySettings.GLOBAL_MIN_PRIORITY, settings.GetMaxPriority());
+            settingsListing.LabeledNumericSliderInt("defaultPriority".Translate() + "   ", ref settings.buffer.priorityDefRef, ref settings.buffer.defPriority, 1, settings.GetMaxPriority());
 
             settingsListing.Gap(24);
 

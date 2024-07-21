@@ -58,7 +58,7 @@ namespace PriorityMod.Core
 
             settingsListing.NewColumn();
 
-            settingsListing.LabeledNumericSliderInt("defaultPriority".Translate() + "   ", ref settings.buffer.priorityDefRef, ref settings.buffer.defPriority, PrioritySettings.GLOBAL_MIN_PRIORITY, settings.GetMaxPriority());
+            settingsListing.LabeledNumericSliderInt("defaultPriority".Translate() + "   ", ref settings.buffer.priorityDefRef, ref settings.buffer.defPriority, 1, settings.GetMaxPriority());
 
             settingsListing.Gap(24);
 

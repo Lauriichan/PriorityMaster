@@ -1,9 +1,12 @@
 ﻿using System;
 using UnityEngine;
 using PriorityMod.Tools;
+using UnityEngine.Diagnostics;
+using RimWorld;
 
 namespace PriorityMod.Settings
 {
+
     public class DisplayBuffer
     {
 
@@ -17,167 +20,146 @@ namespace PriorityMod.Settings
 
         public volatile int selected = -1;
 
-        private SimpleColor rgb = new SimpleColor(ColorType.SRGB);
-        private SimpleColor hsl = new SimpleColor(ColorType.HSL);
+        private int _red = 0;
+        private int _green = 0;
+        private int _blue = 0;
+
+        private float _redF = 0;
+        private float _greenF = 0;
+        private float _blueF = 0;
+
+        private float _hue;
+        private float _saturation;
+        private float _lightness;
 
         public SimpleColor Color
         {
-            get => rgb.Copy();
-            set {
-                if (value.Red == rgb.Red && value.Green == rgb.Green && value.Blue == rgb.Blue)
-                    return;
-                rgb.FromColor(value);
-                hsl.FromColor(value);
-                _hex = rgb.ToString();
-                settings.SetColor(selected, Color);
+            get => SimpleColor.sRGB(_redF, _greenF, _blueF);
+            set
+            {
+                SimpleColor col = value.ToSRGB();
+                _red = col.RedI;
+                _green = col.GreenI;
+                _blue = col.BlueI;
+                _redF = col.Red;
+                _greenF = col.Green;
+                _blueF = col.Blue;
+                UpdateFromRGB(true);
             }
         }
 
         public Color UnityColor
         {
-            get => rgb.ToUnity();
+            get => new Color(_redF, _greenF, _blueF);
             set
             {
-                SimpleColor newColor = SimpleColor.sRGB(value);
-                if (newColor.Red == rgb.Red && newColor.Green == rgb.Green && newColor.Blue == rgb.Blue)
+                SimpleColor col = SimpleColor.sRGB(value);
+                if (_red == col.RedI && _green == col.GreenI && _blue == col.BlueI)
+                {
                     return;
-                rgb.FromColor(newColor);
-                hsl.FromColor(newColor);
-                _hex = rgb.ToString();
-                settings.SetColor(selected, Color);
+                }
+                _red = col.RedI;
+                _green = col.GreenI;
+                _blue = col.BlueI;
+                UpdateFromRGB();
             }
         }
 
-        public int RedI
+        public int Red
         {
-            get => rgb.RedI;
+            get => _red;
             set
             {
-                int prev = rgb.RedI;
-                rgb.RedI = value;
-                if (value == prev)
+                CheckRGBRange(ref value);
+                if (_red == value)
                     return;
-                hsl.FromColor(rgb);
-                _hex = rgb.ToString();
-                settings.SetColor(selected, Color);
+                _red = value;
+                _redF = SimpleColor.Int2RGB(_red);
+                UpdateFromRGB();
             }
         }
 
-        public int GreenI
+        public int Green
         {
-            get => rgb.GreenI;
-            set {
-                int prev = rgb.GreenI;
-                rgb.GreenI = value;
-                if (value == prev)
+            get => _green;
+            set
+            {
+                CheckRGBRange(ref value);
+                if (_green == value)
                     return;
-                hsl.FromColor(rgb);
-                _hex = rgb.ToString();
-                settings.SetColor(selected, Color);
+                _green = value;
+                _greenF = SimpleColor.Int2RGB(_green);
+                UpdateFromRGB();
             }
         }
 
-        public int BlueI
+        public int Blue
         {
-            get => rgb.BlueI;
+            get => _blue;
             set
             {
-                int prev = rgb.BlueI;
-                rgb.BlueI = value;
-                if (value == prev)
+                CheckRGBRange(ref value);
+                if (_blue == value)
                     return;
-                hsl.FromColor(rgb);
-                _hex = rgb.ToString();
-                settings.SetColor(selected, Color);
+                _blue = value;
+                _blueF = SimpleColor.Int2RGB(_blue);
+                UpdateFromRGB();
             }
         }
 
-        public float Red
+        public float RedF
         {
-            get => rgb.Red;
-            set
-            {
-                float prev = rgb.Red;
-                rgb.Red = value;
-                if (value == prev)
-                    return;
-                hsl.FromColor(rgb);
-                _hex = rgb.ToString();
-                settings.SetColor(selected, Color);
-            }
+            get => _redF;
+            set => Red = SimpleColor.RGB2Int(value);
         }
 
-        public float Green
+        public float GreenF
         {
-            get => rgb.Green;
-            set
-            {
-                float prev = rgb.Green;
-                rgb.Green = value;
-                if (value == prev)
-                    return;
-                hsl.FromColor(rgb);
-                _hex = rgb.ToString();
-                settings.SetColor(selected, Color);
-            }
+            get => _greenF;
+            set => Green = SimpleColor.RGB2Int(value);
         }
 
-        public float Blue
+        public float BlueF
         {
-            get => rgb.Blue;
-            set
-            {
-                float prev = rgb.Blue;
-                rgb.Blue = value;
-                if (value == prev)
-                    return;
-                hsl.FromColor(rgb);
-                _hex = rgb.ToString();
-                settings.SetColor(selected, Color);
-            }
+            get => _blueF;
+            set => Blue = SimpleColor.RGB2Int(value);
         }
         public float Hue
         {
-            get => hsl.Hue;
+            get => _hue;
             set
             {
-                float prev = hsl.Hue;
-                hsl.Hue = value;
-                if (value == prev)
+                CheckHSLRange(ref value);
+                if (_hue == value)
                     return;
-                rgb.FromColor(hsl);
-                _hex = rgb.ToString();
-                settings.SetColor(selected, Color);
+                _hue = value;
+                UpdateFromHSL();
             }
         }
 
         public float Saturation
         {
-            get => hsl.Saturation;
+            get => _saturation;
             set
             {
-                float prev = hsl.Saturation;
-                hsl.Saturation = value;
-                if (value == prev)
+                CheckHSLRange(ref value);
+                if (_saturation == value)
                     return;
-                rgb.FromColor(hsl);
-                _hex = rgb.ToString();
-                settings.SetColor(selected, Color);
+                _saturation = value;
+                UpdateFromHSL();
             }
         }
 
         public float Lightness
         {
-            get => hsl.Lightness;
+            get => _lightness;
             set
             {
-                float prev = hsl.Lightness;
-                hsl.Lightness = value;
-                if (value == prev)
+                CheckHSLRange(ref value);
+                if (_lightness == value)
                     return;
-                rgb.FromColor(hsl);
-                _hex = rgb.ToString();
-                settings.SetColor(selected, Color);
+                _lightness = value;
+                UpdateFromHSL();
             }
         }
 
@@ -187,14 +169,67 @@ namespace PriorityMod.Settings
             get => _hex;
             set
             {
-                SimpleColor parsedHex = SimpleColor.sRGB(value);
-                if (parsedHex.Red == rgb.Red && parsedHex.Green == rgb.Green && parsedHex.Blue == rgb.Blue)
+                if (_hex.Equals(value) || !value.StartsWith("#"))
+                {
                     return;
-                rgb.FromColor(parsedHex);
-                hsl.FromColor(parsedHex);
-                _hex = value.StartsWith("#") ? value : '#' + value;
-                settings.SetColor(selected, Color);
+                }
+                SimpleColor col = SimpleColor.sRGB(value);
+                _hex = col.ToString();
+                _red = col.RedI;
+                _green = col.GreenI;
+                _blue = col.BlueI;
+                _redF = col.Red;
+                _greenF = col.Green;
+                _blueF = col.Blue;
+                UpdateFromRGB(false);
             }
+        }
+
+        private void UpdateFromHSL()
+        {
+            SimpleColor col = SimpleColor.HSL(_hue, _saturation, _lightness).ToSRGB();
+            _red = col.RedI;
+            _green = col.GreenI;
+            _blue = col.BlueI;
+            _redF = col.Red;
+            _greenF = col.Green;
+            _blueF = col.Blue;
+            UpdateHex();
+        }
+
+        private void UpdateFromRGB(bool updateHex = true)
+        {
+            SimpleColor col = SimpleColor.sRGB(_redF, _greenF, _blueF).ToHSL();
+            _hue = col.Hue;
+            _saturation = col.Saturation;
+            _lightness = col.Lightness;
+            if (updateHex)
+            {
+                UpdateHex();
+            }
+        }
+
+        private void UpdateHex()
+        {
+            SimpleColor color = SimpleColor.sRGB(_redF, _greenF, _blueF);
+            _hex = color.ToString();
+            settings.SetColor(selected, color);
+        }
+
+        private void CheckHSLRange(ref float value)
+        {
+            if (value > 1.0f)
+                value = 1.0f;
+            else if (value < 0f)
+                value = 0f;
+        }
+
+        private void CheckRGBRange(ref int value)
+        {
+            if (value > 255)
+                value = 255;
+            else if (value < 0)
+                value = 0;
         }
 
         /*

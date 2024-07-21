@@ -5,6 +5,7 @@ using System;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 using Verse;
 
 namespace PriorityMod.Tools
@@ -169,164 +170,169 @@ namespace PriorityMod.Tools
 			this.totalHeight = pickerHeight + 3 * gapSpace + 7 * barHeight + 4 * barSpace;
 		}
 
-		public void Draw(Listing listing, in DisplayBuffer buffer)
-		{
-			bool update = false;
-			if (prevColorId != buffer.selected)
+        public void Draw(Listing listing, in DisplayBuffer buffer)
+        {
+            bool update = false;
+            if (prevColorId != buffer.selected)
             {
-				prevColorId = buffer.selected;
-				update = true;
-				hexBuf = null;
-				Log.Message("Changed: " + buffer.Hex);
-			}
+                prevColorId = buffer.selected;
+                update = true;
+                hexBuf = null;
+                Log.Message("Changed: " + buffer.Hex);
+            }
 
-			float pHeight = pickerHeight;
-			float pWidth = pHeight * 3.6f;
-			if (pWidth > listing.ColumnWidth)
-			{
-				pWidth = listing.ColumnWidth * 0.8f;
-				pHeight = pWidth / 3.6f;
-			}
+            float pHeight = pickerHeight;
+            float pWidth = pHeight * 3.6f;
+            if (pWidth > listing.ColumnWidth)
+            {
+                pWidth = listing.ColumnWidth * 0.8f;
+                pHeight = pWidth / 3.6f;
+            }
 
-			Rect root = listing.GetRect(totalHeight);
+            Rect root = listing.GetRect(totalHeight);
 
-			float hue = buffer.Hue / 360f;
-			float saturation = buffer.Saturation / 100f;
-			float lightness = buffer.Lightness / 100f;
-			float red = buffer.Red;
-			float green = buffer.Green;
-			float blue = buffer.Blue;
+            float hue = buffer.Hue;
+            float saturation = buffer.Saturation;
+            float lightness = buffer.Lightness;
+            float red = buffer.RedF;
+            float green = buffer.GreenF;
+            float blue = buffer.BlueF;
 
-			bool updateTextures = prevHue != hue || prevSaturation != saturation || prevLightness != lightness || prevRed != red || prevGreen != green || prevBlue != blue;
+            bool updateTextures = prevHue != hue || prevSaturation != saturation || prevLightness != lightness || prevRed != red || prevGreen != green || prevBlue != blue;
             if (updateTextures)
             {
-				prevHue = hue;
-				prevSaturation = saturation;
-				prevLightness = lightness;
-				prevRed = red;
-				prevGreen = green;
-				prevBlue = blue;
+                prevHue = hue;
+                prevSaturation = saturation;
+                prevLightness = lightness;
+                prevRed = red;
+                prevGreen = green;
+                prevBlue = blue;
             }
 
-			float rHue = hue;
-			float rSaturation = saturation;
-			float rLightness = lightness;
-			float rRed = red;
-			float rGreen = green;
-			float rBlue = blue;
+            float rHue = hue;
+            float rSaturation = saturation;
+            float rLightness = lightness;
+            float rRed = red;
+            float rGreen = green;
+            float rBlue = blue;
 
-			Widgets.BeginGroup(root);
+            Widgets.BeginGroup(root);
 
-			float pAlignX = ((root.width - pWidth - pHeight - gapSpace) / 2) + pHeight + gapSpace;
-			float pSpaceX = pAlignX - pHeight - gapSpace;
+            float pAlignX = ((root.width - pWidth - pHeight - gapSpace) / 2) + pHeight + gapSpace;
+            float pSpaceX = pAlignX - pHeight - gapSpace;
 
-			Widgets.DrawBoxSolid(new Rect(pSpaceX, 0, pHeight, pHeight), buffer.UnityColor);
+            Widgets.DrawBoxSolid(new Rect(pSpaceX, 0, pHeight, pHeight), buffer.UnityColor);
 
-			if (DrawPicker(pAlignX, pWidth, pHeight, ref hue, saturation, ref lightness) && !update)
+            if (DrawPicker(pAlignX, pWidth, pHeight, ref hue, saturation, ref lightness) && !update)
             {
-				update = true;
-				buffer.Hue = hue;
-				buffer.Lightness = lightness;
+                update = true;
+                buffer.Hue = hue;
+                buffer.Lightness = lightness;
             }
 
-			float y = gapSpace + pHeight;
-			if (DrawBar(pAlignX, y, pWidth, prevHue, ref hue, updateTextures, ref hueTex, (value) => SimpleColor.HSL(value, rSaturation, rLightness).ToUnity()) && !update)
+            float y = gapSpace + pHeight;
+            if (DrawBar(pAlignX, y, pWidth, prevHue, ref hue, updateTextures, ref hueTex, (value) => SimpleColor.HSL(value, rSaturation, rLightness).ToUnity()) && !update)
             {
-				update = true;
-				buffer.Hue = hue;
-			}
-			int numBuf = (int) Math.Round(prevHue * 360f);
-			string txtBuf = numBuf.ToString();
-			if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.hue".Translate(), ref numBuf, 0, 360) && !update)
-			{
-				update = true;
-				buffer.Hue = numBuf;
-			}
-			y += barSpace + barHeight;
-
-			if (DrawBar(pAlignX, y, pWidth, prevSaturation, ref saturation, updateTextures, ref saturationTex, (value) => SimpleColor.HSL(rHue, value, rLightness).ToUnity()) && !update)
-            {
-				update = true;
-				buffer.Saturation = saturation;
+                update = true;
+                buffer.Hue = hue;
             }
-			numBuf = (int)Math.Round(prevSaturation * 100f);
-			txtBuf = numBuf.ToString();
-			if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.saturation".Translate(), ref numBuf, 0, 100) && !update)
+            int numBuf = (int)Math.Round(prevHue * 360f);
+            string txtBuf = numBuf.ToString();
+            if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.hue".Translate(), ref numBuf, 0, 360) && !update)
             {
-				update = true;
-				buffer.Saturation = numBuf;
-			}
-			y += barSpace + barHeight;
+                update = true;
+                buffer.Hue = (numBuf / 360f);
+            }
+            y += barSpace + barHeight;
 
-			if (DrawBar(pAlignX, y, pWidth, prevLightness, ref lightness, updateTextures, ref lightnessTex, (value) => SimpleColor.HSL(rHue, rSaturation, value).ToUnity()) && !update)
-			{
-				update = true;
-				buffer.Lightness = lightness;
-			}
-			numBuf = (int)Math.Round(prevLightness * 100f);
-			txtBuf = numBuf.ToString();
-			if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.lightness".Translate(), ref numBuf, 0, 100) && !update)
-			{
-				update = true;
-				buffer.Lightness = numBuf;
-			}
-			y += gapSpace + barHeight;
-
-
-			if (DrawBar(pAlignX, y, pWidth, prevRed, ref red, updateTextures, ref redTex, (value) => new Color(value, rGreen, rBlue)) && !update)
-			{
-				update = true;
-				buffer.Red = red;
-			}
-			numBuf = SimpleColor.Rgb2Int(prevRed);
-			txtBuf = numBuf.ToString();
-			if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.red".Translate(), ref numBuf, 0, 255) && !update)
+            if (DrawBar(pAlignX, y, pWidth, prevSaturation, ref saturation, updateTextures, ref saturationTex, (value) => SimpleColor.HSL(rHue, value, rLightness).ToUnity()) && !update)
             {
-				update = true;
-				buffer.Red = numBuf;
-			}
-			y += barSpace + barHeight;
-
-			if (DrawBar(pAlignX, y, pWidth, prevGreen, ref green, updateTextures, ref greenTex, (value) => new Color(rRed, value, rBlue)) && !update)
-			{
-				update = true;
-				buffer.Green = green;
-			}
-			numBuf = SimpleColor.Rgb2Int(prevGreen);
+                update = true;
+                buffer.Saturation = saturation;
+            }
+            numBuf = (int)Math.Round(prevSaturation * 100f);
             txtBuf = numBuf.ToString();
-			if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.green".Translate(), ref numBuf, 0, 255) && !update)
+            if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.saturation".Translate(), ref numBuf, 0, 100) && !update)
             {
-				update = true;
-				buffer.GreenI = numBuf;
-			}
-			y += barSpace + barHeight;
+                update = true;
+                buffer.Saturation = (numBuf / 100f);
+            }
+            y += barSpace + barHeight;
 
-			if (DrawBar(pAlignX, y, pWidth, prevBlue, ref blue, updateTextures, ref blueTex, (value) => new Color(rRed, rGreen, value)) && !update)
-			{
-				update = true;
-				buffer.Blue = blue;
-			}
-			numBuf = SimpleColor.Rgb2Int(prevBlue);
-			txtBuf = numBuf.ToString();
-			if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.blue".Translate(), ref numBuf, 0, 255) && !update)
-			{
-				update = true;
-				buffer.BlueI = numBuf;
-			}
-			y += gapSpace + barHeight;
+            if (DrawBar(pAlignX, y, pWidth, prevLightness, ref lightness, updateTextures, ref lightnessTex, (value) => SimpleColor.HSL(rHue, rSaturation, value).ToUnity()) && !update)
+            {
+                update = true;
+                buffer.Lightness = lightness;
+            }
+            numBuf = (int)Math.Round(prevLightness * 100f);
+            txtBuf = numBuf.ToString();
+            if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.lightness".Translate(), ref numBuf, 0, 100) && !update)
+            {
+                update = true;
+                buffer.Lightness = (numBuf / 100f);
+            }
+            y += gapSpace + barHeight;
 
-			txtBuf = buffer.Hex; 
-			if (hexBuf == null || (update && !hexBuf.Equals(txtBuf)))
-			{
-				hexBuf = txtBuf;
-			}
-			if (WidgetUtil.TextField(new Rect(pSpaceX, y, pHeight + gapSpace + pWidth, barHeight), labelSize, "color.hex".Translate(), ref hexBuf, ref txtBuf, ValidateHex, maxLength: 7) && !update)
-			{
-				buffer.Hex = txtBuf;
-			}
 
-			Widgets.EndGroup();
+            if (DrawBar(pAlignX, y, pWidth, prevRed, ref red, updateTextures, ref redTex, (value) => new Color(value, rGreen, rBlue)) && !update)
+            {
+                update = true;
+                buffer.RedF = red;
+            }
+			numBuf = SimpleColor.RGB2Int(prevRed);
+            txtBuf = numBuf.ToString();
+            if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.red".Translate(), ref numBuf, 0, 255) && !update)
+            {
+                update = true;
+                buffer.Red = numBuf;
+            }
+            y += barSpace + barHeight;
 
+            if (DrawBar(pAlignX, y, pWidth, prevGreen, ref green, updateTextures, ref greenTex, (value) => new Color(rRed, value, rBlue)) && !update)
+            {
+                update = true;
+                buffer.GreenF = green;
+            }
+            numBuf = SimpleColor.RGB2Int(prevGreen);
+            txtBuf = numBuf.ToString();
+            if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.green".Translate(), ref numBuf, 0, 255) && !update)
+            {
+                update = true;
+                buffer.Green = numBuf;
+            }
+            y += barSpace + barHeight;
+
+            if (DrawBar(pAlignX, y, pWidth, prevBlue, ref blue, updateTextures, ref blueTex, (value) => new Color(rRed, rGreen, value)) && !update)
+            {
+                update = true;
+                buffer.BlueF = blue;
+            }
+            numBuf = SimpleColor.RGB2Int(prevBlue);
+            txtBuf = numBuf.ToString();
+            if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.blue".Translate(), ref numBuf, 0, 255) && !update)
+            {
+                update = true;
+                buffer.Blue = numBuf;
+            }
+            y += gapSpace + barHeight;
+
+            txtBuf = buffer.Hex;
+            if (hexBuf == null || (update && !hexBuf.Equals(txtBuf)))
+            {
+                hexBuf = txtBuf;
+            }
+            if (WidgetUtil.TextField(new Rect(pSpaceX, y, pHeight + gapSpace + pWidth, barHeight), labelSize, "color.hex".Translate(), ref hexBuf, ref txtBuf, ValidateHex, maxLength: 7) && !update)
+            {
+                buffer.Hex = txtBuf;
+            }
+
+            Widgets.EndGroup();
+
+        }
+
+        private Color hsl(float hue, float saturation, float lightness)
+		{
+			return SimpleColor.HSL(hue, saturation, lightness).ToUnity();
 		}
 
 		private bool ValidateHex(string hex)

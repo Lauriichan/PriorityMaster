@@ -18,9 +18,12 @@ namespace PriorityMod.Settings
         public readonly DisplayBuffer buffer;
         private System.Random random = new System.Random();
 
-        public PrioritySettings()
+        static PrioritySettings()
         {
             Parsers<SimpleColor>.Register(SimpleColor.sRGB);
+        }
+        public PrioritySettings()
+        {
             buffer = new DisplayBuffer(this);
         }
 
@@ -167,7 +170,7 @@ namespace PriorityMod.Settings
             buffer.setChangeDef = true;
             if (priority > maxPriority)
                 defPriority = maxPriority;
-            else if (priority < GLOBAL_MIN_PRIORITY)
+            else if (priority < 1)
                 defPriority = 1;
             else
                 defPriority = priority;

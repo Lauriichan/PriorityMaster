@@ -49,7 +49,7 @@ namespace PriorityMod.Tools
 
         private static Color Interpolate(float ratio, SimpleColor start, SimpleColor end)
         {
-            return start.Copy().Multiply(1f - ratio).Add(end.Copy().Multiply(ratio)).ToUnity();
+            return start.Copy().Multiply(ratio).Add(end.Copy().Multiply(1f - ratio)).ToUnity();
         }
 
     }
