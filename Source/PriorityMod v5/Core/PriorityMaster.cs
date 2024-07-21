@@ -1,10 +1,11 @@
 ﻿using HarmonyLib;
-using PriorityMod.PatchesV4;
-using PriorityMod.PatchesV4.Compat;
+using PriorityMod.PatchesV5;
+using PriorityMod.PatchesV5.Compat;
 using PriorityMod.Tools;
 using PriorityMod.Settings;
 using Verse;
 using UnityEngine;
+using static Verse.ParseHelper;
 
 namespace PriorityMod.Core
 {
@@ -25,6 +26,8 @@ namespace PriorityMod.Core
                 return;
             }
             startup = true;
+
+            Parsers<Tools.SimpleColor>.Register(Tools.SimpleColor.sRGB);
 
             settings = GetSettings<PrioritySettings>();
 

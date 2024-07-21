@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32228.343
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriorityMod v3", "PriorityMod v3\PriorityMod v3.csproj", "{1B73A3B8-013D-4D60-86AB-764679A7541F}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriorityMod v1", "PriorityMod v1\PriorityMod v1.csproj", "{C7E41CA2-337C-4DBF-A012-ED0A40330086}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriorityMod v4", "PriorityMod v4\PriorityMod v4.csproj", "{FF663690-37FB-4661-9CA1-685D04104D7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriorityMod v5", "PriorityMod v5\PriorityMod v5.csproj", "{F92C5E5D-EE60-41FD-965A-1972A2F68356}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{FF663690-37FB-4661-9CA1-685D04104D7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF663690-37FB-4661-9CA1-685D04104D7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF663690-37FB-4661-9CA1-685D04104D7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F92C5E5D-EE60-41FD-965A-1972A2F68356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F92C5E5D-EE60-41FD-965A-1972A2F68356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F92C5E5D-EE60-41FD-965A-1972A2F68356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F92C5E5D-EE60-41FD-965A-1972A2F68356}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

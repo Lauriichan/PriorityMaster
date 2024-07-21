@@ -40,7 +40,7 @@ namespace PriorityMod.Core
             Listing_PriorityMod listing = new Listing_PriorityMod();
             listing.Begin(inRect);
 
-            settings.SelectColor(listing.ColorList(settings.GetNewSelect(), settings.GetSelectMax(), settings.GetColor));
+            settings.SelectColor(listing.ColorList(settings.GetNewSelect(), settings.GetSelectMax(), settings.GetUnityColor));
             listing.Gap(24);
             picker.Draw(listing as Listing, in settings.buffer);
             listing.GapLine(36);
@@ -50,8 +50,7 @@ namespace PriorityMod.Core
             settingsListing.ColumnWidth = (settingsRect.width - Listing.ColumnSpacing) / 2f;
             settingsListing.Begin(settingsRect);
 
-            settings.SetMaxPriority(Mathf.RoundToInt(settingsListing.Slider(settings.GetMaxPriority(), PrioritySettings.GLOBAL_MIN_PRIORITY, PrioritySettings.GLOBAL_MAX_PRIORITY)));
-            settingsListing.TextFieldNumericLabeled("highestPriority".Translate() + "   ", ref settings.buffer.priorityMaxRef, ref settings.buffer.maxPriority, PrioritySettings.GLOBAL_MIN_PRIORITY, PrioritySettings.GLOBAL_MAX_PRIORITY);
+            settingsListing.LabeledNumericSliderInt("highestPriority".Translate() + "   ", ref settings.buffer.priorityMaxRef, ref settings.buffer.maxPriority, PrioritySettings.GLOBAL_MIN_PRIORITY, PrioritySettings.GLOBAL_MAX_PRIORITY);
 
             settingsListing.Gap(24);
 
@@ -59,8 +58,7 @@ namespace PriorityMod.Core
 
             settingsListing.NewColumn();
 
-            settings.SetDefPriority(Mathf.RoundToInt(settingsListing.Slider(settings.GetDefPriority(), PrioritySettings.GLOBAL_MIN_PRIORITY, settings.GetMaxPriority())));
-            settingsListing.TextFieldNumericLabeled("defaultPriority".Translate() + "   ", ref settings.buffer.priorityDefRef, ref settings.buffer.defPriority, PrioritySettings.GLOBAL_MIN_PRIORITY, settings.GetMaxPriority());
+            settingsListing.LabeledNumericSliderInt("defaultPriority".Translate() + "   ", ref settings.buffer.priorityDefRef, ref settings.buffer.defPriority, PrioritySettings.GLOBAL_MIN_PRIORITY, settings.GetMaxPriority());
 
             settingsListing.Gap(24);
 

@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 using UnityEngine;
 using Verse;
 
-namespace PriorityMod.PatchesV4
+namespace PriorityMod.PatchesV5
 {
     public static class RestartPatches
     {

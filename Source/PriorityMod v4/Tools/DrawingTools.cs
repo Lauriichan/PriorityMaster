@@ -4,44 +4,55 @@ using UnityEngine;
 using PriorityMod.Core;
 using PriorityMod.Extensions;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace PriorityMod.Tools
 {
     public static class DrawingTools
     {
 
-        private static List<Color> colors = new List<Color>();
+        private static List<Color> calculatedColors = new List<Color>();
 
         public static Color GetColorFromPriority(int priority)
         {
-            return colors.ElementAtOrDefault(priority - 1);
+            return calculatedColors.ElementAtOrDefault(priority - 1);
         }
 
         public static void UpdateColors()
         {
-            colors.Clear();
-            List<String> hexColors = PriorityMaster.settings.hexColors;
+            calculatedColors.Clear();
+            List<SimpleColor> colors = PriorityMaster.settings.colors;
             if (!PriorityMaster.settings.enableGradient)
             {
-                hexColors.ToColor(ref colors);
+                foreach (SimpleColor color in colors)
+                {
+                    calculatedColors.Add(color.ToUnity());
+                }
                 return;
             }
-            Color col1 = hexColors[0].ToColor();
-            Color col2 = hexColors[1].ToColor();
+            SimpleColor start = colors[0].ToOkLab();
+            SimpleColor end = colors[1].ToOkLab();
             int count = PriorityMaster.settings.GetMaxPriority();
             if (PriorityMaster.settings.reverseGradient)
             {
                 for (float index = 0; index < count; index++)
                 {
-                    colors.Add((index / count).Interpolate(col1, col2));
+                    calculatedColors.Add(Interpolate((index / count), start, end));
                 }
                 return;
             }
             for (float index = count; index > 0; index--)
             {
-                colors.Add((index / count).Interpolate(col1, col2));
+                calculatedColors.Add(Interpolate((index / count), start, end));
             }
         }
 
+        private static Color Interpolate(float ratio, SimpleColor start, SimpleColor end)
+        {
+            return start.Copy().Multiply(1f - ratio).Add(end.Copy().Multiply(ratio)).ToUnity();
+        }
+
     }
+
+    
 }

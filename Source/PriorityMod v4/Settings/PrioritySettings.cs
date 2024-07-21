@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Verse;
+using v = Verse;
 using PriorityMod.Tools;
 using UnityEngine;
-using PriorityMod.Extensions;
+using static Verse.ParseHelper;
 
 namespace PriorityMod.Settings
 {
-    public class PrioritySettings : ModSettings
+    public class PrioritySettings : v.ModSettings
     {
 
         private static readonly string HEX_BLACK = "#000000";
@@ -21,8 +20,11 @@ namespace PriorityMod.Settings
 
         public PrioritySettings()
         {
+            Parsers<SimpleColor>.Register(SimpleColor.sRGB);
             buffer = new DisplayBuffer(this);
         }
+
+        public bool drawRestartButton = false;
 
         public bool enableGradient = true;
         public bool reverseGradient = false;
@@ -30,7 +32,7 @@ namespace PriorityMod.Settings
         private int maxPriority = 9;
         private int defPriority = 3;
 
-        public List<String> hexColors = new List<String>(new String[] { "#00FF00", "#FF0000" });
+        public List<SimpleColor> colors = new List<SimpleColor>(new SimpleColor[] { SimpleColor.sRGB("#00FF00"), SimpleColor.sRGB("#FF0000") });
 
         private List<Color> unityColors = new List<Color>();
         private bool colorsChanged = true;
@@ -38,11 +40,12 @@ namespace PriorityMod.Settings
         public override void ExposeData()
         {
 
-            Scribe_Values.Look(ref maxPriority, "HighestPriority");
-            Scribe_Values.Look(ref defPriority, "DefaultPriority");
-            Scribe_Values.Look(ref enableGradient, "Gradient");
-            Scribe_Values.Look(ref reverseGradient, "ReverseGradient");
-            Scribe_Collections.Look(ref hexColors, "HexColors", LookMode.Value);
+            v.Scribe_Values.Look(ref maxPriority, "HighestPriority");
+            v.Scribe_Values.Look(ref defPriority, "DefaultPriority");
+            v.Scribe_Values.Look(ref enableGradient, "Gradient");
+            v.Scribe_Values.Look(ref reverseGradient, "ReverseGradient");
+            v.Scribe_Values.Look(ref drawRestartButton, "DrawRestartButton");
+            v.Scribe_Collections.Look(ref colors, "HexColors", v.LookMode.Value);
 
             base.ExposeData();
         }
@@ -63,17 +66,20 @@ namespace PriorityMod.Settings
             this.colorsChanged = true;
         }
 
-        public Color GetColor(int color)
+        public Color GetUnityColor(int color)
         {
             if (color == buffer.selected)
             {
-                return buffer.Color;
+                return buffer.UnityColor;
             }
             if (colorsChanged || color >= unityColors.Count)
             {
                 UpdateColorList();
                 unityColors.Clear();
-                hexColors.ToColor(ref unityColors);
+                foreach (SimpleColor colorObj in colors)
+                {
+                    unityColors.Add(colorObj.ToUnity());
+                }
                 colorsChanged = false;
             }
             if(color >= unityColors.Count)
@@ -81,6 +87,15 @@ namespace PriorityMod.Settings
                 return Color.black;
             }
             return unityColors[color];
+        }
+
+        public SimpleColor GetColor(int color)
+        {
+            if (color == buffer.selected)
+            {
+                return buffer.Color;
+            }
+            return colors[color];
         }
 
         public void StoreColors()
@@ -92,16 +107,20 @@ namespace PriorityMod.Settings
         private void UpdateColorList()
         {
             int size = GetSelectMax();
-            if (hexColors.Count > size)
+            if (colors.Count > size)
             {
-                for (int index = hexColors.Count - 1; index >= size; index--)
-                    hexColors.RemoveAt(index);
+                for (int index = colors.Count - 1; index >= size; index--)
+                    colors.RemoveAt(index);
             }
-            else if (hexColors.Count < size)
+            else if (colors.Count < size)
             {
-                while (hexColors.Count < size)
+                while (colors.Count < size)
                 {
-                    hexColors.Add('#' + random.Next(0, 256).IntToHex() + random.Next(0, 256).IntToHex() + random.Next(0, 256).IntToHex());
+                    SimpleColor color = new SimpleColor(ColorType.SRGB);
+                    color.RedI = random.Next(0, 256);
+                    color.GreenI = random.Next(0, 256);
+                    color.BlueI = random.Next(0, 256);
+                    colors.Add(color);
                 }
                     
             }
@@ -201,9 +220,9 @@ namespace PriorityMod.Settings
             if (buffer.selected == color || color < 0)
                 return;
 
-            if (hexColors.Count >= color)
+            if (colors.Count >= color)
             {
-                buffer.Hex = hexColors.ElementAt(color);
+                buffer.Color = colors.ElementAt(color);
                 buffer.selected = color;
                 return;
             }
@@ -211,7 +230,7 @@ namespace PriorityMod.Settings
             buffer.selected = color;
         }
 
-        public void SetColor(int color, string value)
+        public void SetColor(int color, SimpleColor value)
         {
             if (color == -1)
             {
@@ -219,8 +238,8 @@ namespace PriorityMod.Settings
             }
             colorsChanged = true;
             UpdateColorList();
-            hexColors.RemoveAt(color);
-            hexColors.Insert(color, value);
+            colors.RemoveAt(color);
+            colors.Insert(color, value);
         }
 
     }

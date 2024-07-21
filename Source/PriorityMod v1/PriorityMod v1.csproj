@@ -18,7 +18,7 @@
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\1.0\Assemblies\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -37,8 +37,6 @@
     <Compile Include="Core\PriorityMaster.cs" />
     <Compile Include="Core\UIResources.cs" />
     <Compile Include="CrossCompat\Port.cs" />
-    <Compile Include="Extensions\ColorExtensions.cs" />
-    <Compile Include="Extensions\UnityExtensions.cs" />
     <Compile Include="PatchesV1\PatchHelper.cs" />
     <Compile Include="PatchesV1\PriorityPatches.cs" />
     <Compile Include="PatchesV1\UIPatches.cs" />
@@ -55,7 +53,7 @@
     </Compile>
     <Compile Include="Settings\DisplayBuffer.cs" />
     <Compile Include="Settings\PrioritySettings.cs" />
-    <Compile Include="Tools\Utils.cs" />
+    <Compile Include="Tools\SimpleColor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">

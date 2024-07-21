@@ -1,5 +1,4 @@
 ﻿using PriorityMod.Core;
-using PriorityMod.CrossCompat;
 using PriorityMod.Extensions;
 using PriorityMod.Settings;
 using System;
@@ -21,34 +20,40 @@ namespace PriorityMod.Tools
 		public void LabeledNumericSliderFloat(string label, ref float value, ref string buffer, float min = 0f, float max = 1E+09f)
         {
             Rect rect = GetRect(Text.LineHeight + 22);
-            Widgets.Label(new Rect(rect.position, new Vector2(rect.size.x, Text.LineHeight)), label);
-            Vector2 pos = rect.position;
-            pos.y += Text.LineHeight;
-            float width = rect.size.x / 10;
-            Widgets.TextFieldNumeric(new Rect(new Vector2(rect.x, rect.y + Text.LineHeight), new Vector2(width, 22)), ref value, ref buffer, min, max);
-            value = Widgets.HorizontalSlider(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max);
+            if (!BoundingRectCached.HasValue || rect.Overlaps(BoundingRectCached.Value))
+            {
+                Widgets.Label(new Rect(rect.position, new Vector2(rect.size.x, Text.LineHeight)), label);
+                Vector2 pos = rect.position;
+                pos.y += Text.LineHeight;
+                float width = rect.size.x / 10;
+                Widgets.TextFieldNumeric(new Rect(new Vector2(rect.x, rect.y + Text.LineHeight), new Vector2(width, 22)), ref value, ref buffer, min, max);
+                value = Widgets.HorizontalSlider(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max);
+			}
 			Gap(verticalSpacing);
         }
 
         public void LabeledNumericSliderInt(string label, ref int value, ref string buffer, int min = 0, int max = int.MaxValue)
         {
             Rect rect = GetRect(Text.LineHeight + 22);
-            Widgets.Label(new Rect(rect.position, new Vector2(rect.size.x, Text.LineHeight)), label);
-            Vector2 pos = rect.position;
-            pos.y += Text.LineHeight;
-            float width = rect.size.x / 10;
-            Widgets.TextFieldNumeric(new Rect(new Vector2(rect.x, rect.y + Text.LineHeight), new Vector2(width, 22)), ref value, ref buffer, min, max);
-            value = Mathf.RoundToInt(Widgets.HorizontalSlider(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max));
+            if (!BoundingRectCached.HasValue || rect.Overlaps(BoundingRectCached.Value))
+            {
+                Widgets.Label(new Rect(rect.position, new Vector2(rect.size.x, Text.LineHeight)), label);
+                Vector2 pos = rect.position;
+                pos.y += Text.LineHeight;
+                float width = rect.size.x / 10;
+                Widgets.TextFieldNumeric(new Rect(new Vector2(rect.x, rect.y + Text.LineHeight), new Vector2(width, 22)), ref value, ref buffer, min, max);
+                value = Mathf.RoundToInt(Widgets.HorizontalSlider(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max));
+            }
             Gap(verticalSpacing);
         }
 
         public int ColorList(int current, int total, Func<int, Color> function, int size = 24, int padding = 2, int borderThickness = 2)
 		{
 			Rect rect = GetRect(size);
-            GUI.BeginGroup(rect);
+			Widgets.BeginGroup(rect);
 			if (total == 0)
 			{
-                GUI.EndGroup();
+				Widgets.EndGroup();
 				return 0;
 			}
 
@@ -87,13 +92,13 @@ namespace PriorityMod.Tools
 				Rect boxRect = new Rect(x - borderThickness, 0, size, size);
 				if (id == current)
 				{
-					Port.Widgets_DrawBoxSolidWithOutline(boxRect, color, Color.white, borderThickness);
+					Widgets.DrawBoxSolidWithOutline(boxRect, color, Color.white, borderThickness);
 					continue;
 				}
 				Widgets.DraggableResult dragResult = Widgets.ButtonInvisibleDraggable(boxRect, true);
 				if (Mouse.IsOver(boxRect))
 				{
-					Port.Widgets_DrawBoxSolidWithOutline(boxRect, color, Color.gray, borderThickness);
+					Widgets.DrawBoxSolidWithOutline(boxRect, color, Color.gray, borderThickness);
 					if (dragResult == Widgets.DraggableResult.Pressed || dragResult == Widgets.DraggableResult.Dragged)
 					{
 						result = id;
@@ -102,7 +107,7 @@ namespace PriorityMod.Tools
 				}
 				Widgets.DrawBoxSolid(new Rect(x, borderThickness, unselectedSize, unselectedSize), color);
 			}
-            GUI.EndGroup();
+			Widgets.EndGroup();
 			return result;
 		}
 
@@ -172,6 +177,7 @@ namespace PriorityMod.Tools
 				prevColorId = buffer.selected;
 				update = true;
 				hexBuf = null;
+				Log.Message("Changed: " + buffer.Hex);
 			}
 
 			float pHeight = pickerHeight;
@@ -209,7 +215,7 @@ namespace PriorityMod.Tools
 			float rGreen = green;
 			float rBlue = blue;
 
-            GUI.BeginGroup(root);
+			Widgets.BeginGroup(root);
 
 			float pAlignX = ((root.width - pWidth - pHeight - gapSpace) / 2) + pHeight + gapSpace;
 			float pSpaceX = pAlignX - pHeight - gapSpace;
@@ -319,7 +325,7 @@ namespace PriorityMod.Tools
 				buffer.Hex = txtBuf;
 			}
 
-			GUI.EndGroup();
+			Widgets.EndGroup();
 
 		}
 
@@ -400,144 +406,142 @@ namespace PriorityMod.Tools
 			texture.Apply();
 		}
 
-    }
+	}
 
-    public static class WidgetUtil
+	public static class WidgetUtil
     {
 
-        private static int dragId;
+		private static int dragId;
 
-        public static void ResetDragId()
+		public static void ResetDragId()
         {
-            dragId = 0;
+			dragId = 0;
         }
 
-        public static bool TextField(Rect rect, float labelWidth, string label, ref string buffer, ref string value, Func<string, bool> validator, float gapSpace = 4f, int maxLength = 0)
-        {
-            Widgets.Label(new Rect(rect.x, rect.y, labelWidth, rect.height + 4), label);
-            buffer = Widgets.TextField(new Rect(rect.x + labelWidth + gapSpace, rect.y, rect.width - labelWidth - gapSpace, rect.height), buffer);
-            if (maxLength != 0 && buffer.Length > maxLength)
-            {
-                buffer = buffer.Substring(0, maxLength);
-            }
+		public static bool TextField(Rect rect, float labelWidth, string label, ref string buffer, ref string value, Func<string, bool> validator, float gapSpace = 4f, int maxLength = 0)
+		{
+			Widgets.Label(new Rect(rect.x, rect.y, labelWidth, rect.height + 4), label);
+			buffer = Widgets.TextField(new Rect(rect.x + labelWidth + gapSpace, rect.y, rect.width - labelWidth - gapSpace, rect.height), buffer);
+			if (maxLength != 0 && buffer.Length > maxLength)
+			{
+				buffer = buffer.Substring(0, maxLength);
+			}
             if (validator.Invoke(buffer))
             {
-                value = buffer;
-                return true;
+				value = buffer;
+				return true;
             }
-            return false;
-        }
+			return false;
+		}
 
-        public static bool NumericTextField(Rect rect, float labelWidth, string label, ref int reference, int min = 0, int max = int.MaxValue, float gapSpace = 4f)
-        {
-            Widgets.Label(new Rect(rect.x, rect.y, labelWidth, rect.height + 4), label);
-            string text = reference.ToString();
-            int value = reference;
-            Widgets.TextFieldNumeric(new Rect(rect.x + labelWidth + gapSpace, rect.y, rect.width - labelWidth - gapSpace, rect.height), ref value, ref text, min, max);
-            if (text == "")
-            {
-                value = 0;
+		public static bool NumericTextField(Rect rect, float labelWidth, string label, ref int reference, int min = 0, int max = int.MaxValue, float gapSpace = 4f)
+		{
+			Widgets.Label(new Rect(rect.x, rect.y, labelWidth, rect.height + 4), label);
+			string text = reference.ToString();
+			int value = reference;
+			Widgets.TextFieldNumeric(new Rect(rect.x + labelWidth + gapSpace, rect.y, rect.width - labelWidth - gapSpace, rect.height), ref value, ref text, min, max);
+			if (text == "")
+			{
+				value = 0;
+			}
+			if(reference != value)
+			{
+				reference = value;
+				return true;
             }
-            if (reference != value)
-            {
-                reference = value;
-                return true;
-            }
-            return false;
-        }
+			return false;
+		}
 
-        public static bool IsDraggedX(Rect rect, out float progressX)
-        {
-            int id = UI.GUIToScreenPoint(new Vector2(rect.x, rect.y)).GetHashCode();
-            id = Gen.HashCombine<float>(id, rect.width);
-            id = Gen.HashCombine<float>(id, rect.height);
-            if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect) && WidgetUtil.dragId != id)
-            {
-                WidgetUtil.dragId = id;
-                Event.current.Use();
-            }
-            if (WidgetUtil.dragId == id && Port.UnityGUIBugsFixer_MouseDrag(0))
-            {
-                progressX = Mathf.Clamp((Event.current.mousePosition.x - rect.x) / rect.width, 0f, 1f);
-                if (Event.current.type == EventType.MouseDrag)
-                {
-                    Event.current.Use();
-                }
-                return true;
-            }
-            progressX = 0;
-            return false;
-        }
+		public static bool IsDraggedX(Rect rect, out float progressX)
+		{
+			int id = UI.GUIToScreenPoint(new Vector2(rect.x, rect.y)).GetHashCode();
+			id = Gen.HashCombine<float>(id, rect.width);
+			id = Gen.HashCombine<float>(id, rect.height);
+			if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect) && WidgetUtil.dragId != id)
+			{
+				WidgetUtil.dragId = id;
+				Event.current.Use();
+			}
+			if (WidgetUtil.dragId == id && (UnityGUIBugsFixer.MouseDrag(0) || Event.current.type == EventType.MouseDown))
+			{
+				progressX = Mathf.Clamp((Event.current.mousePosition.x - rect.x) / rect.width, 0f, 1f);
+				if (Event.current.type == EventType.MouseDrag)
+				{
+					Event.current.Use();
+				}
+				return true;
+			}
+			progressX = 0;
+			return false;
+		}
 
-        public static bool IsDraggedXY(Rect rect, out float progressX, out float progressY)
-        {
-            int id = UI.GUIToScreenPoint(new Vector2(rect.x, rect.y)).GetHashCode();
-            id = Gen.HashCombine<float>(id, rect.width);
-            id = Gen.HashCombine<float>(id, rect.height);
-            if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect) && WidgetUtil.dragId != id)
-            {
-                WidgetUtil.dragId = id;
-                Event.current.Use();
-            }
-            if (WidgetUtil.dragId == id && Port.UnityGUIBugsFixer_MouseDrag(0))
-            {
-                progressX = Mathf.Clamp((Event.current.mousePosition.x - rect.x) / rect.width, 0f, 1f);
-                progressY = Mathf.Clamp((Event.current.mousePosition.y - rect.y) / rect.height, 0f, 1f);
-                if (Event.current.type == EventType.MouseDrag)
-                {
-                    Event.current.Use();
-                }
-                return true;
-            }
-            progressX = progressY = 0;
-            return false;
-        }
+		public static bool IsDraggedXY(Rect rect, out float progressX, out float progressY)
+		{
+			int id = UI.GUIToScreenPoint(new Vector2(rect.x, rect.y)).GetHashCode();
+			id = Gen.HashCombine<float>(id, rect.width);
+			id = Gen.HashCombine<float>(id, rect.height);
+			if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect) && WidgetUtil.dragId != id)
+			{
+				WidgetUtil.dragId = id;
+				Event.current.Use();
+			}
+			if (WidgetUtil.dragId == id && (UnityGUIBugsFixer.MouseDrag(0) || Event.current.type == EventType.MouseDown))
+			{
+				progressX = Mathf.Clamp((Event.current.mousePosition.x - rect.x) / rect.width, 0f, 1f);
+				progressY = Mathf.Clamp((Event.current.mousePosition.y - rect.y) / rect.height, 0f, 1f);
+				if (Event.current.type == EventType.MouseDrag)
+				{
+					Event.current.Use();
+				}
+				return true;
+			}
+			progressX = progressY = 0;
+			return false;
+		}
 
-
-    }
-
-    public static class TextureUtil
-    {
-
-        public static bool UpdateTexture(ref Texture2D texture, ref float previousValue, float currentValue, float width, float height)
-        {
-            int texWidth = (int)Math.Round(width);
-            int texHeight = (int)Math.Round(height);
-            if (texture == null)
-            {
-                texture = new Texture2D(texWidth, texHeight);
-                return true;
-            }
-            else if (texture.width != texWidth || texture.height != texHeight)
-            {
-                texture.Resize(texWidth, texHeight);
-                return true;
-            }
-            else if (previousValue != currentValue)
-            {
-                previousValue = currentValue;
-                return true;
-            }
-            return false;
-        }
-
-        public static bool UpdateTexture(ref Texture2D texture, bool updateTexture, float width, float height)
-        {
-            int texWidth = (int)Math.Round(width);
-            int texHeight = (int)Math.Round(height);
-            if (texture == null)
-            {
-                texture = new Texture2D(texWidth, texHeight);
-                return true;
-            }
-            else if (texture.width != texWidth || texture.height != texHeight)
-            {
-                texture.Resize(texWidth, texHeight);
-                return true;
-            }
-            return updateTexture;
-        }
 
     }
+
+	public static class TextureUtil
+	{
+
+		public static bool UpdateTexture(ref Texture2D texture, ref float previousValue, float currentValue, float width, float height)
+		{
+			int texWidth = (int)Math.Round(width);
+			int texHeight = (int)Math.Round(height);
+			if (texture == null)
+			{
+				texture = new Texture2D(texWidth, texHeight);
+				return true;
+			} else if(texture.width != texWidth || texture.height != texHeight)
+            {
+				texture.Resize(texWidth, texHeight);
+				return true;
+            } else if(previousValue != currentValue)
+            {
+				previousValue = currentValue;
+				return true;
+            }
+			return false;
+		}
+
+		public static bool UpdateTexture(ref Texture2D texture, bool updateTexture, float width, float height)
+		{
+			int texWidth = (int)Math.Round(width);
+			int texHeight = (int)Math.Round(height);
+			if (texture == null)
+			{
+				texture = new Texture2D(texWidth, texHeight);
+				return true;
+			}
+			else if (texture.width != texWidth || texture.height != texHeight)
+			{
+				texture.Resize(texWidth, texHeight);
+				return true;
+			}
+			return updateTexture;
+		}
+
+	}
 
 }

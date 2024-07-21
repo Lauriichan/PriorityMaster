@@ -2,6 +2,7 @@
 using PriorityMod.Extensions;
 using PriorityMod.Settings;
 using System;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using Verse;
@@ -16,18 +17,37 @@ namespace PriorityMod.Tools
 
 		public Listing_PriorityMod() : base() { }
 
-		public string TextFieldColored(string text, Color color)
-		{
-			Rect rect = base.GetRect(Text.LineHeight);
-			Color save = GUI.backgroundColor;
-			GUI.backgroundColor = color;
-			string result = Widgets.TextField(rect, text);
-			base.Gap(this.verticalSpacing);
-			GUI.backgroundColor = save;
-			return result;
-		}
+		public void LabeledNumericSliderFloat(string label, ref float value, ref string buffer, float min = 0f, float max = 1E+09f)
+        {
+            Rect rect = GetRect(Text.LineHeight + 22);
+            if (!BoundingRectCached.HasValue || rect.Overlaps(BoundingRectCached.Value))
+            {
+                Widgets.Label(new Rect(rect.position, new Vector2(rect.size.x, Text.LineHeight)), label);
+                Vector2 pos = rect.position;
+                pos.y += Text.LineHeight;
+                float width = rect.size.x / 10;
+                Widgets.TextFieldNumeric(new Rect(new Vector2(rect.x, rect.y + Text.LineHeight), new Vector2(width, 22)), ref value, ref buffer, min, max);
+                value = Widgets.HorizontalSlider_NewTemp(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max);
+			}
+			Gap(verticalSpacing);
+        }
 
-		public int ColorList(int current, int total, Func<int, Color> function, int size = 24, int padding = 2, int borderThickness = 2)
+        public void LabeledNumericSliderInt(string label, ref int value, ref string buffer, int min = 0, int max = int.MaxValue)
+        {
+            Rect rect = GetRect(Text.LineHeight + 22);
+            if (!BoundingRectCached.HasValue || rect.Overlaps(BoundingRectCached.Value))
+            {
+                Widgets.Label(new Rect(rect.position, new Vector2(rect.size.x, Text.LineHeight)), label);
+                Vector2 pos = rect.position;
+                pos.y += Text.LineHeight;
+                float width = rect.size.x / 10;
+                Widgets.TextFieldNumeric(new Rect(new Vector2(rect.x, rect.y + Text.LineHeight), new Vector2(width, 22)), ref value, ref buffer, min, max);
+                value = Mathf.RoundToInt(Widgets.HorizontalSlider_NewTemp(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max));
+            }
+            Gap(verticalSpacing);
+        }
+
+        public int ColorList(int current, int total, Func<int, Color> function, int size = 24, int padding = 2, int borderThickness = 2)
 		{
 			Rect rect = GetRect(size);
 			Widgets.BeginGroup(rect);
@@ -170,12 +190,12 @@ namespace PriorityMod.Tools
 
 			Rect root = listing.GetRect(totalHeight);
 
-			float hue = buffer.Hue;
-			float saturation = buffer.Saturation;
-			float lightness = buffer.Lightness;
-			float red = buffer.RedF;
-			float green = buffer.GreenF;
-			float blue = buffer.BlueF;
+			float hue = buffer.Hue / 360f;
+			float saturation = buffer.Saturation / 100f;
+			float lightness = buffer.Lightness / 100f;
+			float red = buffer.Red;
+			float green = buffer.Green;
+			float blue = buffer.Blue;
 
 			bool updateTextures = prevHue != hue || prevSaturation != saturation || prevLightness != lightness || prevRed != red || prevGreen != green || prevBlue != blue;
             if (updateTextures)
@@ -200,7 +220,7 @@ namespace PriorityMod.Tools
 			float pAlignX = ((root.width - pWidth - pHeight - gapSpace) / 2) + pHeight + gapSpace;
 			float pSpaceX = pAlignX - pHeight - gapSpace;
 
-			Widgets.DrawBoxSolid(new Rect(pSpaceX, 0, pHeight, pHeight), buffer.Color);
+			Widgets.DrawBoxSolid(new Rect(pSpaceX, 0, pHeight, pHeight), buffer.UnityColor);
 
 			if (DrawPicker(pAlignX, pWidth, pHeight, ref hue, saturation, ref lightness) && !update)
             {
@@ -210,7 +230,7 @@ namespace PriorityMod.Tools
             }
 
 			float y = gapSpace + pHeight;
-			if (DrawBar(pAlignX, y, pWidth, prevHue, ref hue, updateTextures, ref hueTex, (value) => Utils.FromHSL(value, rSaturation, rLightness)) && !update)
+			if (DrawBar(pAlignX, y, pWidth, prevHue, ref hue, updateTextures, ref hueTex, (value) => SimpleColor.HSL(value, rSaturation, rLightness).ToUnity()) && !update)
             {
 				update = true;
 				buffer.Hue = hue;
@@ -220,11 +240,11 @@ namespace PriorityMod.Tools
 			if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.hue".Translate(), ref numBuf, 0, 360) && !update)
 			{
 				update = true;
-				buffer.Hue = (numBuf / 360f);
+				buffer.Hue = numBuf;
 			}
 			y += barSpace + barHeight;
 
-			if (DrawBar(pAlignX, y, pWidth, prevSaturation, ref saturation, updateTextures, ref saturationTex, (value) => Utils.FromHSL(rHue, value, rLightness)) && !update)
+			if (DrawBar(pAlignX, y, pWidth, prevSaturation, ref saturation, updateTextures, ref saturationTex, (value) => SimpleColor.HSL(rHue, value, rLightness).ToUnity()) && !update)
             {
 				update = true;
 				buffer.Saturation = saturation;
@@ -234,11 +254,11 @@ namespace PriorityMod.Tools
 			if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.saturation".Translate(), ref numBuf, 0, 100) && !update)
             {
 				update = true;
-				buffer.Saturation = (numBuf / 100f);
+				buffer.Saturation = numBuf;
 			}
 			y += barSpace + barHeight;
 
-			if (DrawBar(pAlignX, y, pWidth, prevLightness, ref lightness, updateTextures, ref lightnessTex, (value) => Utils.FromHSL(rHue, rSaturation, value)) && !update)
+			if (DrawBar(pAlignX, y, pWidth, prevLightness, ref lightness, updateTextures, ref lightnessTex, (value) => SimpleColor.HSL(rHue, rSaturation, value).ToUnity()) && !update)
 			{
 				update = true;
 				buffer.Lightness = lightness;
@@ -248,7 +268,7 @@ namespace PriorityMod.Tools
 			if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.lightness".Translate(), ref numBuf, 0, 100) && !update)
 			{
 				update = true;
-				buffer.Lightness = (numBuf / 100f);
+				buffer.Lightness = numBuf;
 			}
 			y += gapSpace + barHeight;
 
@@ -256,9 +276,9 @@ namespace PriorityMod.Tools
 			if (DrawBar(pAlignX, y, pWidth, prevRed, ref red, updateTextures, ref redTex, (value) => new Color(value, rGreen, rBlue)) && !update)
 			{
 				update = true;
-				buffer.RedF = red;
+				buffer.Red = red;
 			}
-			numBuf = prevRed.RGBToInt();
+			numBuf = SimpleColor.Rgb2Int(prevRed);
 			txtBuf = numBuf.ToString();
 			if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.red".Translate(), ref numBuf, 0, 255) && !update)
             {
@@ -270,28 +290,28 @@ namespace PriorityMod.Tools
 			if (DrawBar(pAlignX, y, pWidth, prevGreen, ref green, updateTextures, ref greenTex, (value) => new Color(rRed, value, rBlue)) && !update)
 			{
 				update = true;
-				buffer.GreenF = green;
+				buffer.Green = green;
 			}
-			numBuf = prevGreen.RGBToInt();
-			txtBuf = numBuf.ToString();
+			numBuf = SimpleColor.Rgb2Int(prevGreen);
+            txtBuf = numBuf.ToString();
 			if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.green".Translate(), ref numBuf, 0, 255) && !update)
             {
 				update = true;
-				buffer.Green = numBuf;
+				buffer.GreenI = numBuf;
 			}
 			y += barSpace + barHeight;
 
 			if (DrawBar(pAlignX, y, pWidth, prevBlue, ref blue, updateTextures, ref blueTex, (value) => new Color(rRed, rGreen, value)) && !update)
 			{
 				update = true;
-				buffer.BlueF = blue;
+				buffer.Blue = blue;
 			}
-			numBuf = prevBlue.RGBToInt();
+			numBuf = SimpleColor.Rgb2Int(prevBlue);
 			txtBuf = numBuf.ToString();
 			if (WidgetUtil.NumericTextField(new Rect(pSpaceX, y, pHeight, barHeight), labelSize, "color.blue".Translate(), ref numBuf, 0, 255) && !update)
 			{
 				update = true;
-				buffer.Blue = numBuf;
+				buffer.BlueI = numBuf;
 			}
 			y += gapSpace + barHeight;
 
@@ -366,7 +386,7 @@ namespace PriorityMod.Tools
 			{
 				for (int y = 0; y < texture.height; y++)
 				{
-					texture.SetPixel(x, y, Utils.FromHSL(x / hueMax, saturation, y / lightMax));
+					texture.SetPixel(x, y, SimpleColor.HSL(x / hueMax, saturation, y / lightMax).ToUnity());
 				}
 			}
 			texture.Apply();
