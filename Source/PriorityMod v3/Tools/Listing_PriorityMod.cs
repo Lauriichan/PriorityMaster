@@ -28,10 +28,15 @@ namespace PriorityMod.Tools
                 Vector2 pos = rect.position;
                 pos.y += Text.LineHeight;
                 float width = rect.size.x / 10;
+                float newValue = Widgets.HorizontalSlider(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max);
+                if (newValue != value)
+                {
+                    buffer = newValue.ToString();
+                    value = newValue;
+                }
                 Widgets.TextFieldNumeric(new Rect(new Vector2(rect.x, rect.y + Text.LineHeight), new Vector2(width, 22)), ref value, ref buffer, min, max);
-                value = Widgets.HorizontalSlider(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max);
-			}
-			Gap(verticalSpacing);
+            }
+            Gap(verticalSpacing);
         }
 
         public void LabeledNumericSliderInt(string label, ref int value, ref string buffer, int min = 0, int max = int.MaxValue)
@@ -43,8 +48,13 @@ namespace PriorityMod.Tools
                 Vector2 pos = rect.position;
                 pos.y += Text.LineHeight;
                 float width = rect.size.x / 10;
+                int newValue = Mathf.RoundToInt(Widgets.HorizontalSlider(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max));
+                if (newValue != value)
+                {
+                    buffer = newValue.ToString();
+                    value = newValue;
+                }
                 Widgets.TextFieldNumeric(new Rect(new Vector2(rect.x, rect.y + Text.LineHeight), new Vector2(width, 22)), ref value, ref buffer, min, max);
-                value = Mathf.RoundToInt(Widgets.HorizontalSlider(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max));
             }
             Gap(verticalSpacing);
         }
@@ -330,11 +340,6 @@ namespace PriorityMod.Tools
             Widgets.EndGroup();
 
         }
-
-        private Color hsl(float hue, float saturation, float lightness)
-		{
-			return SimpleColor.HSL(hue, saturation, lightness).ToUnity();
-		}
 
 		private bool ValidateHex(string hex)
         {

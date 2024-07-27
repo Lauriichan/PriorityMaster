@@ -5,6 +5,7 @@ using PriorityMod.Tools;
 using PriorityMod.Settings;
 using Verse;
 using UnityEngine;
+using System;
 
 namespace PriorityMod.Core
 {
@@ -78,8 +79,6 @@ namespace PriorityMod.Core
 
             listing.GapLine();
             listing.End();
-
-            base.DoSettingsWindowContents(inRect);
 
             settings.StoreColors();
         }

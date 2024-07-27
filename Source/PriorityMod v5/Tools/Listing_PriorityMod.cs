@@ -1,12 +1,16 @@
 ﻿using PriorityMod.Core;
 using PriorityMod.Extensions;
+using PriorityMod.Properties;
 using PriorityMod.Settings;
+using RimWorld;
+using RimWorld.BaseGen;
 using System;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using Verse;
+using static HarmonyLib.Code;
 
 namespace PriorityMod.Tools
 {
@@ -14,7 +18,8 @@ namespace PriorityMod.Tools
 	public class Listing_PriorityMod : Listing_Standard
 	{
 
-		public Listing_PriorityMod(GameFont font) : base(font) { }
+
+        public Listing_PriorityMod(GameFont font) : base(font) { }
 
 		public Listing_PriorityMod() : base() { }
 
@@ -24,13 +29,18 @@ namespace PriorityMod.Tools
             if (!BoundingRectCached.HasValue || rect.Overlaps(BoundingRectCached.Value))
             {
                 Widgets.Label(new Rect(rect.position, new Vector2(rect.size.x, Text.LineHeight)), label);
-                Vector2 pos = rect.position;
-                pos.y += Text.LineHeight;
-                float width = rect.size.x / 10;
-                Widgets.TextFieldNumeric(new Rect(new Vector2(rect.x, rect.y + Text.LineHeight), new Vector2(width, 22)), ref value, ref buffer, min, max);
-                value = Widgets.HorizontalSlider(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max);
-			}
-			Gap(verticalSpacing);
+				Vector2 pos = rect.position;
+				pos.y += Text.LineHeight;
+				float width = rect.size.x / 10;
+				float newValue = Widgets.HorizontalSlider(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max);
+				if (newValue != value)
+				{
+					buffer = newValue.ToString();
+					value = newValue;
+				}
+				Widgets.TextFieldNumeric(new Rect(new Vector2(rect.x, rect.y + Text.LineHeight), new Vector2(width, 22)), ref value, ref buffer, min, max);
+            }
+            Gap(verticalSpacing);
         }
 
         public void LabeledNumericSliderInt(string label, ref int value, ref string buffer, int min = 0, int max = int.MaxValue)
@@ -39,11 +49,16 @@ namespace PriorityMod.Tools
             if (!BoundingRectCached.HasValue || rect.Overlaps(BoundingRectCached.Value))
             {
                 Widgets.Label(new Rect(rect.position, new Vector2(rect.size.x, Text.LineHeight)), label);
-                Vector2 pos = rect.position;
-                pos.y += Text.LineHeight;
-                float width = rect.size.x / 10;
-                Widgets.TextFieldNumeric(new Rect(new Vector2(rect.x, rect.y + Text.LineHeight), new Vector2(width, 22)), ref value, ref buffer, min, max);
-                value = Mathf.RoundToInt(Widgets.HorizontalSlider(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max));
+				Vector2 pos = rect.position;
+				pos.y += Text.LineHeight;
+				float width = rect.size.x / 10;
+				int newValue = Mathf.RoundToInt(Widgets.HorizontalSlider(new Rect(new Vector2(rect.x + width + 6, rect.y + Text.LineHeight + 6.5f), new Vector2(rect.size.x - (width + 12), 22)), value, min, max));
+				if (newValue != value)
+				{
+					buffer = newValue.ToString();
+					value = newValue;
+				}
+				Widgets.TextFieldNumeric(new Rect(new Vector2(rect.x, rect.y + Text.LineHeight), new Vector2(width, 22)), ref value, ref buffer, min, max);
             }
             Gap(verticalSpacing);
         }
@@ -178,7 +193,6 @@ namespace PriorityMod.Tools
                 prevColorId = buffer.selected;
                 update = true;
                 hexBuf = null;
-                Log.Message("Changed: " + buffer.Hex);
             }
 
             float pHeight = pickerHeight;
@@ -330,11 +344,6 @@ namespace PriorityMod.Tools
 
         }
 
-        private Color hsl(float hue, float saturation, float lightness)
-		{
-			return SimpleColor.HSL(hue, saturation, lightness).ToUnity();
-		}
-
 		private bool ValidateHex(string hex)
         {
 			int length = hex.Length;
@@ -371,10 +380,11 @@ namespace PriorityMod.Tools
 			}
 			Rect box = new Rect(x, y, width, barHeight);
 			GUI.DrawTexture(box, texture, ScaleMode.ScaleToFit);
-			Color prev = GUI.color;
-			GUI.color = Color.white;
-			Widgets.DrawBox(new Rect(x + (previousValue * width) - selectionHalfSize, y, selectionSize, barHeight), 1);
-			GUI.color = prev;
+
+            Color prev = GUI.color;
+            GUI.color = Color.white;
+            Widgets.DrawBox(new Rect(x + (previousValue * width) - selectionHalfSize, y, selectionSize, barHeight), 1);
+            GUI.color = prev; 
 			if (WidgetUtil.IsDraggedX(box, out float value))
 			{
 				currentValue = value;

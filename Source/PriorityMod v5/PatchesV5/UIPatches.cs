@@ -1,10 +1,6 @@
 ﻿using HarmonyLib;
-using PriorityMod.Core;
 using PriorityMod.Tools;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using Verse;
 
 namespace PriorityMod.PatchesV5
 {

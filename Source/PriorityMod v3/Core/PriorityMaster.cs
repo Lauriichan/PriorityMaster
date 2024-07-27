@@ -72,8 +72,6 @@ namespace PriorityMod.Core
             listing.GapLine();
             listing.End();
 
-            base.DoSettingsWindowContents(inRect);
-
             settings.StoreColors();
         }
 

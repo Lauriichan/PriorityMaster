@@ -44,7 +44,7 @@ namespace PriorityMod.Settings
                 _redF = col.Red;
                 _greenF = col.Green;
                 _blueF = col.Blue;
-                UpdateFromRGB(true);
+                UpdateFromRGB(true, false);
             }
         }
 
@@ -194,10 +194,10 @@ namespace PriorityMod.Settings
             _redF = col.Red;
             _greenF = col.Green;
             _blueF = col.Blue;
-            UpdateHex();
+            UpdateHex(true);
         }
 
-        private void UpdateFromRGB(bool updateHex = true)
+        private void UpdateFromRGB(bool updateHex = true, bool saveHex = true)
         {
             SimpleColor col = SimpleColor.sRGB(_redF, _greenF, _blueF).ToHSL();
             _hue = col.Hue;
@@ -205,15 +205,18 @@ namespace PriorityMod.Settings
             _lightness = col.Lightness;
             if (updateHex)
             {
-                UpdateHex();
+                UpdateHex(saveHex);
             }
         }
 
-        private void UpdateHex()
+        private void UpdateHex(bool saveHex)
         {
             SimpleColor color = SimpleColor.sRGB(_redF, _greenF, _blueF);
             _hex = color.ToString();
-            settings.SetColor(selected, color);
+            if (saveHex)
+            {
+                settings.SetColor(selected, color);
+            }
         }
 
         private void CheckHSLRange(ref float value)
