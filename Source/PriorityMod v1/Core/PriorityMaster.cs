@@ -11,6 +11,8 @@ namespace PriorityMod.Core
     public class PriorityMaster : Mod
     {
 
+        public const string MOD_ID = "Lauriichan.PriorityMaster";
+
         public static HarmonyInstance harmony;
 
         public static PrioritySettings settings;
@@ -27,7 +29,7 @@ namespace PriorityMod.Core
 
             settings = GetSettings<PrioritySettings>();
 
-            harmony = HarmonyInstance.Create("Lauriichen.PriorityMod");
+            harmony = HarmonyInstance.Create(MOD_ID);
 
             UIPatches.Apply(harmony);
             PriorityPatches.Apply(harmony);

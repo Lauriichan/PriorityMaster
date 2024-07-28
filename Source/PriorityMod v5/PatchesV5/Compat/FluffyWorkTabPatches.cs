@@ -18,7 +18,7 @@ namespace PriorityMod.PatchesV5.Compat
 
         public static void Apply(Harmony harmony)
         {
-            if (!ModsConfig.IsActive("Fluffy.WorkTab"))
+            if (!(ModsConfig.IsActive("Fluffy.WorkTab") || ModsConfig.IsActive("arof.fluffy.worktab")))
             {
                 return;
             }
@@ -60,7 +60,7 @@ namespace PriorityMod.PatchesV5.Compat
         {
             List<CodeInstruction> list = new List<CodeInstruction>();
             list.Add(new CodeInstruction(OpCodes.Ldarg_0));
-            list.Add(new CodeInstruction(OpCodes.Call, Reflection.Method("PriorityMod.PatchesV4.Compat.FluffyWorkTabPatches", "PatchedPriorityLabel", new Type[] { typeof(int) })));
+            list.Add(new CodeInstruction(OpCodes.Call, Reflection.Method(typeof(FluffyWorkTabPatches), "PatchedPriorityLabel", new Type[] { typeof(int) })));
             list.Add(new CodeInstruction(OpCodes.Ret));
             return list;
         }
@@ -77,12 +77,12 @@ namespace PriorityMod.PatchesV5.Compat
                     {
                         if (field.Name.Equals("defaultPriority"))
                         {
-                            list.Add(new CodeInstruction(OpCodes.Call, Reflection.Method("PatchHook", "GetDefaultPriority")));
+                            list.Add(new CodeInstruction(OpCodes.Call, Reflection.Method(typeof(PatchHook), "GetDefaultPriority")));
                             continue;
                         }
                         else if (field.Name.Equals("maxPriority"))
                         {
-                            list.Add(new CodeInstruction(OpCodes.Call, Reflection.Method("PatchHook", "GetMaximumPriority")));
+                            list.Add(new CodeInstruction(OpCodes.Call, Reflection.Method(typeof(PatchHook), "GetMaximumPriority")));
                             continue;
                         }
                     }

@@ -12,6 +12,8 @@ namespace PriorityMod.Core
     public class PriorityMaster : Mod
     {
 
+        public const string MOD_ID = "Lauriichan.PriorityMaster";
+
         public static Harmony harmony;
 
         public static PrioritySettings settings;
@@ -30,7 +32,7 @@ namespace PriorityMod.Core
 
             DrawingTools.UpdateColors();
                 
-            harmony = new Harmony("Lauriichen.PriorityMod");
+            harmony = new Harmony(MOD_ID);
 
             RestartPatches.Apply(harmony);
 
