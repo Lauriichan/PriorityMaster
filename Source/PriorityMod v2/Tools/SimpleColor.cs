@@ -606,7 +606,7 @@ namespace PriorityMod.Tools
 
         private static string sRGB2Hex(SimpleColor color)
         {
-            return RGB2Int(color.red_hue_l).ToString("X2") + RGB2Int(color.green_saturation_a).ToString("X2") + RGB2Int(color.red_hue_l).ToString("X2");
+            return RGB2Int(color.red_hue_l).ToString("X2") + RGB2Int(color.green_saturation_a).ToString("X2") + RGB2Int(color.blue_lightness_b).ToString("X2");
         }
     }
 }
