@@ -1,8 +1,8 @@
 ﻿using HarmonyLib;
 using PriorityMod.PatchesV2;
+using PriorityMod.PatchesV2.Compat;
 using PriorityMod.Tools;
 using PriorityMod.Settings;
-using System.Reflection;
 using Verse;
 using UnityEngine;
 
@@ -33,6 +33,8 @@ namespace PriorityMod.Core
             DrawingTools.UpdateColors();
                 
             harmony = new Harmony(MOD_ID);
+
+            MultiplayerPatches.Apply();
 
             UIPatches.Apply(harmony);
             PriorityPatches.Apply(harmony);

@@ -38,6 +38,7 @@
     <Compile Include="Core\UIResources.cs" />
     <Compile Include="CrossCompat\Port.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="PatchesV3\Compat\MultiplayerPatches.cs" />
     <Compile Include="PatchesV3\PatchHelper.cs" />
     <Compile Include="PatchesV3\PriorityPatches.cs" />
     <Compile Include="PatchesV3\UIPatches.cs" />
@@ -64,6 +65,10 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\..\Libs\Harmony\1.2+\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="0MultiplayerAPI">
+      <HintPath>..\..\..\Libs\Multiplayer\0MultiplayerAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">

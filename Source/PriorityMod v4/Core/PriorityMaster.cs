@@ -5,6 +5,7 @@ using PriorityMod.Tools;
 using PriorityMod.Settings;
 using Verse;
 using UnityEngine;
+using PriorityMod.PatchesV4.Multiplayer;
 
 namespace PriorityMod.Core
 {
@@ -42,12 +43,18 @@ namespace PriorityMod.Core
 
             UIPatches.Apply(harmony);
             PriorityPatches.Apply(harmony);
+
+            MultiplayerCompat.Initialize(settings);
         }
 
         private readonly ColorPicker picker = new ColorPicker(120, 20, 10, 24, 12, 80);
 
         public override void DoSettingsWindowContents(Rect inRect)
         {
+            IMPWatcher watcher = MultiplayerCompat.GetWatcher();
+
+            ISyncRef sync;
+            watcher.BeginWatch();
 
             Listing_PriorityMod listing = new Listing_PriorityMod();
             listing.Begin(inRect);
@@ -62,7 +69,14 @@ namespace PriorityMod.Core
             settingsListing.ColumnWidth = (settingsRect.width - Listing.ColumnSpacing) / 2f;
             settingsListing.Begin(settingsRect);
 
+            GUI.enabled = watcher.CanChangeSettings();
             settingsListing.LabeledNumericSliderInt("highestPriority".Translate() + "   ", ref settings.buffer.priorityMaxRef, ref settings.buffer.maxPriority, PrioritySettings.GLOBAL_MIN_PRIORITY, PrioritySettings.GLOBAL_MAX_PRIORITY);
+            sync = watcher.Get("max_priority");
+            if (sync != null)
+            {
+                sync.Watch();
+            }
+            GUI.enabled = true;
 
             settingsListing.Gap(24);
 
@@ -70,7 +84,14 @@ namespace PriorityMod.Core
 
             settingsListing.NewColumn();
 
+            GUI.enabled = watcher.CanChangeSettings();
             settingsListing.LabeledNumericSliderInt("defaultPriority".Translate() + "   ", ref settings.buffer.priorityDefRef, ref settings.buffer.defPriority, 1, settings.GetMaxPriority());
+            sync = watcher.Get("default_priority");
+            if (sync != null)
+            {
+                sync.Watch();
+            }
+            GUI.enabled = true;
 
             settingsListing.Gap(24);
 
@@ -80,6 +101,8 @@ namespace PriorityMod.Core
 
             listing.GapLine();
             listing.End();
+
+            watcher.EndWatch();
 
             settings.StoreColors();
         }

@@ -41,6 +41,8 @@ namespace PriorityMod.Core
             FluffyWorkTabPatches.Apply(harmony);
             PlugAndPlayJoinerPatches.Apply(harmony);
 
+            MultiplayerPatches.Apply();
+
             UIPatches.Apply(harmony);
             PriorityPatches.Apply(harmony);
         }
