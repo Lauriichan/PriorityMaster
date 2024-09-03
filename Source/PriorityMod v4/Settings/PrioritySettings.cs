@@ -225,7 +225,6 @@ namespace PriorityMod.Settings
         {
             if (MultiplayerCompat.IsInMultiplayer())
             {
-                v.Log.Message("IN MP");
                 return MultiplayerCompat.GetDefaultPriority();
             }
             return GetUserDefPriority();
