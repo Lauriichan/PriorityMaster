@@ -33,6 +33,7 @@ Compatible with:
 - Multiplayer
 - Pawn Centric Work Priorities
 - Fluffy's Work Tab
+- Plug And Play Joiner
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [contributors-shield]: https://img.shields.io/github/contributors/Lauriichan/PriorityMaster.svg?style=flat-square

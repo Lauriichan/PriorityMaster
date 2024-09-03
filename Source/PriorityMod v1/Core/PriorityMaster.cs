@@ -59,7 +59,7 @@ namespace PriorityMod.Core
 
             settingsListing.NewColumn();
 
-            settingsListing.LabeledNumericSliderInt("defaultPriority".Translate() + "   ", ref settings.buffer.priorityDefRef, ref settings.buffer.defPriority, 1, settings.GetMaxPriority());
+            settingsListing.LabeledNumericSliderInt("defaultPriority".Translate() + "   ", ref settings.buffer.priorityDefRef, ref settings.buffer.defPriority, 1, settings.GetUserMaxPriority());
 
             settingsListing.Gap(24);
 
@@ -70,6 +70,8 @@ namespace PriorityMod.Core
             listing.GapLine();
             listing.End();
 
+            // We have to get the default priority to update everything
+            settings.GetUserDefPriority();
             settings.StoreColors();
         }
 

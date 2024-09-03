@@ -43,6 +43,7 @@ namespace PriorityMod.Tools
                     }
                     return;
                 }
+                // Use gradient to fill rest of the colors until I can think of a better solution for this x)
                 calculatedColors.RemoveLast();
                 SimpleColor start1 = colors[listSize - 2];
                 SimpleColor end1 = colors[listSize - 1];
@@ -71,6 +72,37 @@ namespace PriorityMod.Tools
         private static Color Interpolate(float ratio, SimpleColor start, SimpleColor end)
         {
             return start.Copy().Multiply(ratio).Add(end.Copy().Multiply(1f - ratio)).ToUnity();
+        }
+
+        public static TaggedString GetTaggedStringFromPriorityString(string priorityString)
+        {
+            if (!priorityString.StartsWith("Priority") || !int.TryParse(priorityString.Substring(8), out int priorityValue))
+            {
+                return priorityString.Translate();
+            }
+            if (priorityValue == 0)
+            {
+                return "Priority_None".Translate();
+            }
+            int max = PriorityMaster.settings.GetMaxPriority();
+            float percentage = ((float)max - priorityValue) / max;
+            if (percentage < 0.2f)
+            {
+                return "Priority_VeryLow".Translate();
+            }
+            if (percentage < 0.4f)
+            {
+                return "Priority_Low".Translate();
+            }
+            if (percentage < 0.6f)
+            {
+                return "Priority_Normal".Translate();
+            }
+            if (percentage < 0.8f)
+            {
+                return "Priority_High".Translate();
+            }
+            return "Priority_VeryHigh".Translate();
         }
 
     }

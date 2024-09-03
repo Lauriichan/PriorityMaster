@@ -1,5 +1,6 @@
 {
     "excludes": [
+        "README.md",
         "move-dll.bat",
         "publish.bat",
         "publish.json",

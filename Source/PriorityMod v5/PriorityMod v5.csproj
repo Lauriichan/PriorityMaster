@@ -39,7 +39,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="PatchesV5\Compat\CentricWorkPatches.cs" />
     <Compile Include="PatchesV5\Compat\FluffyWorkTabPatches.cs" />
-    <Compile Include="PatchesV5\Compat\MultiplayerPatches.cs" />
+    <Compile Include="PatchesV5\Compat\MultiplayerCompat.cs" />
     <Compile Include="PatchesV5\Compat\PlugAndPlayJoinerPatches.cs" />
     <Compile Include="PatchesV5\PatchHelper.cs" />
     <Compile Include="PatchesV5\PatchSettings.cs" />

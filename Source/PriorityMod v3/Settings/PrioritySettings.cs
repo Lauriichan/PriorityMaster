@@ -3,6 +3,7 @@ using System.Linq;
 using v = Verse;
 using PriorityMod.Tools;
 using UnityEngine;
+using PriorityMod.PatchesV3.Compat;
 using static Verse.ParseHelper;
 
 namespace PriorityMod.Settings
@@ -11,6 +12,9 @@ namespace PriorityMod.Settings
     {
 
         private static readonly string HEX_BLACK = "#000000";
+
+        public static readonly int VALUE_MAX_PRIORITY_DEFAULT = 9;
+        public static readonly int VALUE_DEF_PRIORITY_DEFAULT = 3;
 
         public static readonly int GLOBAL_MAX_PRIORITY = 99;
         public static readonly int GLOBAL_MIN_PRIORITY = 2;
@@ -32,8 +36,8 @@ namespace PriorityMod.Settings
         public bool enableGradient = true;
         public bool reverseGradient = false;
 
-        private int maxPriority = 9;
-        private int defPriority = 3;
+        private int maxPriority = VALUE_MAX_PRIORITY_DEFAULT;
+        private int defPriority = VALUE_DEF_PRIORITY_DEFAULT;
 
         public List<SimpleColor> colors = new List<SimpleColor>(new SimpleColor[] { SimpleColor.sRGB("#00FF00"), SimpleColor.sRGB("#FF0000") });
 
@@ -49,6 +53,11 @@ namespace PriorityMod.Settings
             v.Scribe_Values.Look(ref reverseGradient, "ReverseGradient");
             v.Scribe_Values.Look(ref drawRestartButton, "DrawRestartButton");
             v.Scribe_Collections.Look(ref colors, "HexColors", v.LookMode.Value);
+
+            buffer.setChangeMax = true;
+            GetUserMaxPriority();
+            buffer.setChangeDef = true;
+            GetUserDefPriority();
 
             base.ExposeData();
         }
@@ -146,9 +155,14 @@ namespace PriorityMod.Settings
                 maxPriority = GLOBAL_MIN_PRIORITY;
             else
                 maxPriority = priority;
+            buffer.setChangeMax = buffer.priorityMaxRef != maxPriority;
+            if (MultiplayerCompat.IsInMultiplayer())
+            {
+                MultiplayerCompat.SetMaximumPriority(maxPriority);
+            }
         }
 
-        public int GetMaxPriority()
+        public int GetUserMaxPriority()
         {
             if (maxPriority != buffer.priorityMaxRef)
             {
@@ -158,9 +172,19 @@ namespace PriorityMod.Settings
                     buffer.maxPriority = maxPriority + "";
                     return buffer.priorityMaxRef = maxPriority;
                 }
-                return maxPriority = buffer.priorityMaxRef;
+                SetMaxPriority(buffer.priorityMaxRef);
+                return maxPriority;
             }
             return maxPriority;
+        }
+
+        public int GetMaxPriority()
+        {
+            if (MultiplayerCompat.IsInMultiplayer())
+            {
+                return MultiplayerCompat.GetMaximumPriority();
+            }
+            return GetUserMaxPriority();
         }
 
         public void SetDefPriority(int priority)
@@ -174,9 +198,14 @@ namespace PriorityMod.Settings
                 defPriority = 1;
             else
                 defPriority = priority;
+            buffer.setChangeDef = buffer.priorityDefRef != defPriority;
+            if (MultiplayerCompat.IsInMultiplayer())
+            {
+                MultiplayerCompat.SetDefaultPriority(defPriority);
+            }
         }
 
-        public int GetDefPriority()
+        public int GetUserDefPriority()
         {
             if (defPriority != buffer.priorityDefRef)
             {
@@ -186,9 +215,19 @@ namespace PriorityMod.Settings
                     buffer.defPriority = defPriority + "";
                     return buffer.priorityDefRef = defPriority;
                 }
-                return defPriority = buffer.priorityDefRef;
+                SetDefPriority(buffer.priorityDefRef);
+                return defPriority;
             }
             return defPriority;
+        }
+
+        public int GetDefPriority()
+        {
+            if (MultiplayerCompat.IsInMultiplayer())
+            {
+                return MultiplayerCompat.GetDefaultPriority();
+            }
+            return GetUserDefPriority();
         }
 
         /*

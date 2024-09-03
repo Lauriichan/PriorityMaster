@@ -38,7 +38,7 @@
     <Compile Include="Core\UIResources.cs" />
     <Compile Include="CrossCompat\Port.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="PatchesV2\Compat\MultiplayerPatches.cs" />
+    <Compile Include="PatchesV2\Compat\MultiplayerCompat.cs" />
     <Compile Include="PatchesV2\PatchHelper.cs" />
     <Compile Include="PatchesV2\PriorityPatches.cs" />
     <Compile Include="PatchesV2\UIPatches.cs" />
