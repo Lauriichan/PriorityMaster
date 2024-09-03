@@ -40,6 +40,7 @@
     <Compile Include="PatchesV4\Compat\CentricWorkPatches.cs" />
     <Compile Include="PatchesV4\Compat\FluffyWorkTabPatches.cs" />
     <Compile Include="PatchesV4\Compat\PlugAndPlayJoinerPatches.cs" />
+    <Compile Include="PatchesV4\Compat\MultiplayerCompat.cs" />
     <Compile Include="PatchesV4\PatchHelper.cs" />
     <Compile Include="PatchesV4\PatchSettings.cs" />
     <Compile Include="PatchesV4\RestartPatches.cs" />
@@ -68,6 +69,10 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\..\Libs\Harmony\1.2+\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="0MultiplayerAPI">
+      <HintPath>..\..\..\Libs\Multiplayer\0MultiplayerAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">

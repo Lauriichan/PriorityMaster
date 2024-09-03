@@ -31,9 +31,11 @@ namespace PriorityMod.PatchesV5
             harmony.Patch(Reflection.Method("PawnColumnWorker_WorkPriority", "HeaderClicked"), transpiler: PatchHelper.Method(() => PriorityTranspiler(null, null)));
 
             harmony.Patch(Reflection.Method("WidgetsWork", "ColorOfPriority"), transpiler: PatchHelper.Method(() => PriorityColorTranspiler(null, null)));
+            harmony.Patch(Reflection.Method("WidgetsWork", "TipForPawnWorker"), transpiler: PatchHelper.Method(() => TipForPawnWorkerTranspiler(null, null)));
             harmony.Patch(Reflection.Method("WidgetsWork", "DrawWorkBoxFor"), transpiler: PatchHelper.Method(() => DrawWorkBoxTranspiler(null, null)));
 
             harmony.Patch(Reflection.Constructors("Pawn_WorkSettings").First(), prefix: PatchHelper.Method<Object>((obj) => PriorityPatches.PatchPriorityFields(ref obj)));
+
         }
 
         /*
@@ -106,6 +108,25 @@ namespace PriorityMod.PatchesV5
             list.Add(new CodeInstruction(OpCodes.Ldarg_0));
             list.Add(new CodeInstruction(OpCodes.Call, Reflection.Method("DrawingTools", "GetColorFromPriority", new Type[] { typeof(int) })));
             list.Add(new CodeInstruction(OpCodes.Ret));
+            return list;
+        }
+        public static IEnumerable<CodeInstruction> TipForPawnWorkerTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        {
+            List<CodeInstruction> list = new List<CodeInstruction>();
+            bool done = false;
+            foreach (CodeInstruction instruction in instructions)
+            {
+                if (!done && instruction.opcode == OpCodes.Call)
+                {
+                    if (((MethodInfo)instruction.operand).Name == "Translate")
+                    {
+                        list.Add(new CodeInstruction(OpCodes.Call, Reflection.Method("DrawingTools", "GetTaggedStringFromPriorityString")));
+                        done = true;
+                        continue;
+                    }
+                }
+                list.Add(instruction);
+            }
             return list;
         }
         public static IEnumerable<CodeInstruction> DrawWorkBoxTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)

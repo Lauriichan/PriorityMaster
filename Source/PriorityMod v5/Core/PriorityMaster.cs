@@ -5,7 +5,6 @@ using PriorityMod.Tools;
 using PriorityMod.Settings;
 using Verse;
 using UnityEngine;
-using System;
 
 namespace PriorityMod.Core
 {
@@ -13,6 +12,7 @@ namespace PriorityMod.Core
     public class PriorityMaster : Mod
     {
 
+        public const string NAMESPACED_KEY = "lauriichan-priority_master";
         public const string MOD_ID = "Lauriichan.PriorityMaster";
 
         public static Harmony harmony;
@@ -43,6 +43,8 @@ namespace PriorityMod.Core
 
             UIPatches.Apply(harmony);
             PriorityPatches.Apply(harmony);
+
+            MultiplayerCompat.Initialize(harmony);
         }
 
         private readonly ColorPicker picker = new ColorPicker(120, 20, 10, 24, 12, 80);
@@ -63,7 +65,9 @@ namespace PriorityMod.Core
             settingsListing.ColumnWidth = (settingsRect.width - Listing.ColumnSpacing) / 2f;
             settingsListing.Begin(settingsRect);
 
+            GUI.enabled = MultiplayerCompat.CanChangeSettings();
             settingsListing.LabeledNumericSliderInt("highestPriority".Translate() + "   ", ref settings.buffer.priorityMaxRef, ref settings.buffer.maxPriority, PrioritySettings.GLOBAL_MIN_PRIORITY, PrioritySettings.GLOBAL_MAX_PRIORITY);
+            GUI.enabled = true;
 
             settingsListing.Gap(24);
 
@@ -71,7 +75,9 @@ namespace PriorityMod.Core
 
             settingsListing.NewColumn();
 
-            settingsListing.LabeledNumericSliderInt("defaultPriority".Translate() + "   ", ref settings.buffer.priorityDefRef, ref settings.buffer.defPriority, 1, settings.GetMaxPriority());
+            GUI.enabled = MultiplayerCompat.CanChangeSettings();
+            settingsListing.LabeledNumericSliderInt("defaultPriority".Translate() + "   ", ref settings.buffer.priorityDefRef, ref settings.buffer.defPriority, 1, settings.GetUserMaxPriority());
+            GUI.enabled = true;
 
             settingsListing.Gap(24);
 
@@ -82,6 +88,8 @@ namespace PriorityMod.Core
             listing.GapLine();
             listing.End();
 
+            // We have to get the default priority to update everything
+            settings.GetUserDefPriority();
             settings.StoreColors();
         }
 
