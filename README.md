@@ -36,7 +36,7 @@ Compatible with:
 - Plug And Play Joiner
 
 Special thanks to:
-- @SokyranTheDragon for helping me to understand the MP synchronization, couldn't have done it without them.
+- [@SokyranTheDragon](https://github.com/SokyranTheDragon/) for helping me to understand the MP synchronization, couldn't have done it without them.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [contributors-shield]: https://img.shields.io/github/contributors/Lauriichan/PriorityMaster.svg?style=flat-square
