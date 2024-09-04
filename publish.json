@@ -6,6 +6,7 @@
         "publish.json",
         "Version Notes.txt",
         ".gitignore",
+        ".github/",
         ".git/",
         "Source/"
     ],

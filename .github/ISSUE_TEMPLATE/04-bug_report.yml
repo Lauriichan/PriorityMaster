@@ -1,0 +1,73 @@
+name: Bug report
+description: Report a bug
+labels: ["Bug"]
+body:
+  - type: checkboxes
+    id: no-mod-relation
+    attributes:
+      label: Not a mod compatibility issue
+      description: |
+        Please confirm that your issue is not related to compatibility issues with another mod.
+        However if that is not the case, please open a "Mod incompatibility report" instead.
+        If you still not choose to do so your issue will be closed afterwards, thanks for your understanding.
+      options:
+        - label: I confirm that the my issue is not related to compatibility issues with another mod
+          required: true
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: game-version
+    attributes:
+      label: RimWorld version
+      description: The RimWorld version that you are using to play with this mod.
+    validations:
+      required: true
+  - type: textarea
+    id: mod-list
+    attributes:
+      label: Mod list
+      description: |
+        Please provide a full list of mods that you were using to while the bug happened.
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe what happend
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Give a description of how to reproduce the bug. Please walk through them step by step.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: media
+    attributes:
+      label: Media
+      description: If applicable, add screenshots, logs or a video to help explain your problem.
+    validations:
+      required: false
+  - type: textarea
+    id: additional-information
+    attributes:
+      label: Additional Information
+      description: Any additional information that you would like to share.
+    
