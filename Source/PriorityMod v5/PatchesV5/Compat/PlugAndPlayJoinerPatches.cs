@@ -1,11 +1,8 @@
 ﻿using HarmonyLib;
 using PriorityMod.Tools;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 
 namespace PriorityMod.PatchesV5.Compat
@@ -15,7 +12,7 @@ namespace PriorityMod.PatchesV5.Compat
 
         public static void Apply(Harmony harmony)
         {
-            if (!ModsConfig.IsActive("telardo.plugandplayjoiner"))
+            if (!ModsConfig.IsAnyActiveOrEmpty(new string[] { "telardo.plugandplayjoiner", "Mlie.PlugAndPlayJoiner" }))
             {
                 return;
             }

@@ -18,7 +18,7 @@ namespace PriorityMod.PatchesV5.Compat
 
         public static void Apply(Harmony harmony)
         {
-            if (!(ModsConfig.IsActive("Fluffy.WorkTab") || ModsConfig.IsActive("arof.fluffy.worktab") || ModsConfig.IsActive("arof.fluffy.worktab.continued")))
+            if (!ModsConfig.IsAnyActiveOrEmpty(new string[] { "Fluffy.WorkTab", "arof.fluffy.worktab", "arof.fluffy.worktab.continued" }))
             {
                 return;
             }
