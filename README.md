@@ -23,9 +23,9 @@
 All features can be configured ingame using the settings menu of the mod
 
 Features:
-- Customizable colors
--> Supports gradients between two colors (gradients can also be reversed)
--> Supports to change the color for each priority individually
+- Customizable colors<br>
+  -> Supports gradients between two colors (gradients can also be reversed)<br>
+  -> Supports to change the color for each priority individually
 - Allows for the maximum priority to be changed (1 - 99)
 - Allows for the default priority to be changed (1 - Max priority)
 
