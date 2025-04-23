@@ -1,14 +1,12 @@
-﻿using HarmonyLib;
-using PriorityMod.Tools;
-using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+using HarmonyLib;
+using PriorityMod.Extensions;
+using PriorityMod.Tools;
+using RimWorld;
 using Verse;
 
 namespace PriorityMod.PatchesV5.Compat
@@ -119,29 +117,23 @@ namespace PriorityMod.PatchesV5.Compat
 
         private static IEnumerable<CodeInstruction> PriorityRedirectTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
-            List<CodeInstruction> list = new List<CodeInstruction>();
-            foreach (CodeInstruction instruction in instructions)
+            foreach (var instruction in instructions)
             {
-                if (instruction.opcode == OpCodes.Ldsfld)
+                if (instruction.opcode == OpCodes.Ldsfld && instruction.operand is FieldInfo field)
                 {
-                    FieldInfo field = (FieldInfo)instruction.operand;
-                    if (field != null)
+                    switch (field.Name)
                     {
-                        if (field.Name.Equals("defaultPriority"))
-                        {
-                            list.Add(new CodeInstruction(OpCodes.Call, Reflection.Method(typeof(PatchHook), "GetDefaultPriority")));
+                        case "defaultPriority":
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(PatchHook), nameof(PatchHook.GetDefaultPriority))).WithLabelsFrom(instruction);
                             continue;
-                        }
-                        else if (field.Name.Equals("maxPriority"))
-                        {
-                            list.Add(new CodeInstruction(OpCodes.Call, Reflection.Method(typeof(PatchHook), "GetMaximumPriority")));
+                        case "maxPriority":
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(PatchHook), nameof(PatchHook.GetMaximumPriority))).WithLabelsFrom(instruction);
                             continue;
-                        }
                     }
                 }
-                list.Add(instruction);
+
+                yield return instruction;
             }
-            return list;
         }
 
     }
