@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Core\PriorityMaster.cs" />
     <Compile Include="Core\UIResources.cs" />
+    <Compile Include="Extensions\CodeInstructionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="PatchesV5\Compat\CentricWorkPatches.cs" />
     <Compile Include="PatchesV5\Compat\FluffyWorkTabPatches.cs" />
@@ -67,31 +68,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\..\..\Libs\Harmony\1.2+\0Harmony.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="0MultiplayerAPI">
-      <HintPath>..\..\..\Libs\Multiplayer\0MultiplayerAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\Libs\Game\1.5\Managed\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\Libs\Game\1.5\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\..\..\Libs\Game\1.5\Managed\UnityEngine.IMGUIModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>..\..\..\Libs\Game\1.5\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4409" />
+    <PackageReference Include="Lib.Harmony" Version="2.3.3" ExcludeAssets="runtime" />
+    <PackageReference Include="RimWorld.MultiplayerAPI" Version="0.5.0" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
