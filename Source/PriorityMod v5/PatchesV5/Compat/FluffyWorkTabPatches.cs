@@ -124,10 +124,10 @@ namespace PriorityMod.PatchesV5.Compat
                     switch (field.Name)
                     {
                         case "defaultPriority":
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(PatchHook), nameof(PatchHook.GetDefaultPriority))).WithLabelsFrom(instruction);
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(PatchHook), nameof(PatchHook.GetDefaultPriority))).WithLabels(instruction.labels);
                             continue;
                         case "maxPriority":
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(PatchHook), nameof(PatchHook.GetMaximumPriority))).WithLabelsFrom(instruction);
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(PatchHook), nameof(PatchHook.GetMaximumPriority))).WithLabels(instruction.labels);
                             continue;
                     }
                 }

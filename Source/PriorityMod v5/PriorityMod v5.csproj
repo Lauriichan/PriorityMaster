@@ -36,7 +36,6 @@
   <ItemGroup>
     <Compile Include="Core\PriorityMaster.cs" />
     <Compile Include="Core\UIResources.cs" />
-    <Compile Include="Extensions\CodeInstructionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="PatchesV5\Compat\CentricWorkPatches.cs" />
     <Compile Include="PatchesV5\Compat\FluffyWorkTabPatches.cs" />
