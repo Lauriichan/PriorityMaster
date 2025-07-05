@@ -95,7 +95,7 @@ namespace PriorityMod.PatchesV2.Compat
             Private
         */
 
-        private static void RunMultiplayerSetup(Harmony harmony)
+        private static void TryRunMultiplayerSetup(Harmony harmony)
         {
             if (!MP.enabled)
             {
@@ -103,7 +103,11 @@ namespace PriorityMod.PatchesV2.Compat
                 Log.Warning("[PriorityMaster - Multiplayer Compat] Multiplayer mod installed, but API not initialized!");
                 return;
             }
+            RunMultiplayerSetup(harmony);
+        }
 
+        private static void RunMultiplayerSetup(Harmony harmony)
+        {
             AddModToIgnoredConfigList();
 
             IsInMultiplayerFunc = () => MP.IsInMultiplayer;

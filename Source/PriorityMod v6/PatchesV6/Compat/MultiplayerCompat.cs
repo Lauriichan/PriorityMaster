@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using Verse;
 
-namespace PriorityMod.PatchesV5.Compat
+namespace PriorityMod.PatchesV6.Compat
 {
     public static class MultiplayerCompat
     {

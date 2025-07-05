@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriorityMod v4", "PriorityM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriorityMod v5", "PriorityMod v5\PriorityMod v5.csproj", "{F92C5E5D-EE60-41FD-965A-1972A2F68356}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriorityMod v6", "PriorityMod v6\PriorityMod v6.csproj", "{AD9EDD67-28AA-B298-2797-76461F4708FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F92C5E5D-EE60-41FD-965A-1972A2F68356}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F92C5E5D-EE60-41FD-965A-1972A2F68356}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F92C5E5D-EE60-41FD-965A-1972A2F68356}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD9EDD67-28AA-B298-2797-76461F4708FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD9EDD67-28AA-B298-2797-76461F4708FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD9EDD67-28AA-B298-2797-76461F4708FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD9EDD67-28AA-B298-2797-76461F4708FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

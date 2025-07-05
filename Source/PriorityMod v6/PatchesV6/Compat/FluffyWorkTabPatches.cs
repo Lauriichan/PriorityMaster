@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 
-namespace PriorityMod.PatchesV5.Compat
+namespace PriorityMod.PatchesV6.Compat
 {
     public static class FluffyWorkTabPatches
     {

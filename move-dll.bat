@@ -11,5 +11,7 @@ cd ../../../PriorityMod v4/bin/Release
 copy /Y PriorityMod.dll /B ..\..\..\..\1.4\Assemblies\PriorityMod.dll /B
 cd ../../../PriorityMod v5/bin/Release
 copy /Y PriorityMod.dll /B ..\..\..\..\1.5\Assemblies\PriorityMod.dll /B
+cd ../../../PriorityMod v6/bin/Release
+copy /Y PriorityMod.dll /B ..\..\..\..\1.6\Assemblies\PriorityMod.dll /B
 cd ../../../../
 exit

@@ -12,7 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
-    <ProjectGuid>{F92C5E5D-EE60-41FD-965A-1972A2F68356}</ProjectGuid>
+    <ProjectGuid>{AD9EDD67-28AA-B298-2797-76461F4708FD}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -38,20 +38,20 @@
     <Compile Include="Core\UIResources.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="PatchesV5\Compat\CentricWorkPatches.cs" />
-    <Compile Include="PatchesV5\Compat\FluffyWorkTabPatches.cs" />
-    <Compile Include="PatchesV5\Compat\MultiplayerCompat.cs" />
-    <Compile Include="PatchesV5\Compat\PlugAndPlayJoinerPatches.cs" />
-    <Compile Include="PatchesV5\PatchHelper.cs" />
-    <Compile Include="PatchesV5\PatchSettings.cs" />
-    <Compile Include="PatchesV5\RestartPatches.cs" />
-    <Compile Include="PatchesV5\UIPatches.cs" />
+    <Compile Include="PatchesV6\Compat\CentricWorkPatches.cs" />
+    <Compile Include="PatchesV6\Compat\FluffyWorkTabPatches.cs" />
+    <Compile Include="PatchesV6\Compat\MultiplayerCompat.cs" />
+    <Compile Include="PatchesV6\Compat\PlugAndPlayJoinerPatches.cs" />
+    <Compile Include="PatchesV6\PatchHelper.cs" />
+    <Compile Include="PatchesV6\PatchSettings.cs" />
+    <Compile Include="PatchesV6\RestartPatches.cs" />
+    <Compile Include="PatchesV6\UIPatches.cs" />
     <Compile Include="Settings\DisplayBuffer.cs" />
     <Compile Include="Tools\Listing_PriorityMod.cs" />
     <Compile Include="Tools\OpCodeMatcher.cs" />
     <Compile Include="Tools\PatchHook.cs" />
     <Compile Include="Tools\Reflection.cs" />
-    <Compile Include="PatchesV5\PriorityPatches.cs" />
+    <Compile Include="PatchesV6\PriorityPatches.cs" />
     <Compile Include="Tools\DrawingTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -78,20 +78,20 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\Libs\Game\1.5\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\Libs\Game\1.6\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\Libs\Game\1.5\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\Libs\Game\1.6\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\..\..\Libs\Game\1.5\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>..\..\..\Libs\Game\1.6\Managed\UnityEngine.IMGUIModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>..\..\..\Libs\Game\1.5\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <HintPath>..\..\..\Libs\Game\1.6\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
