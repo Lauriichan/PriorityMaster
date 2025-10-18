@@ -40,6 +40,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="PatchesV6\Compat\CentricWorkPatches.cs" />
     <Compile Include="PatchesV6\Compat\FluffyWorkTabPatches.cs" />
+    <Compile Include="PatchesV6\Compat\MechWorkTabPatches.cs" />
     <Compile Include="PatchesV6\Compat\MultiplayerCompat.cs" />
     <Compile Include="PatchesV6\Compat\PlugAndPlayJoinerPatches.cs" />
     <Compile Include="PatchesV6\PatchHelper.cs" />

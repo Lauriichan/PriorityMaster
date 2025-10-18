@@ -1,11 +1,13 @@
 ﻿using HarmonyLib;
 using PriorityMod.Core;
 using PriorityMod.Tools;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using Verse;
 
 namespace PriorityMod.PatchesV6
 {
@@ -17,24 +19,24 @@ namespace PriorityMod.PatchesV6
             HarmonyMethod defaultPriorityTranspiler = PatchHelper.Method(() => DefaultPriorityTranspiler(null, null));
             if (PatchSettings.Patch_GetPriority)
             {
-                harmony.Patch(Reflection.Method("Pawn_WorkSettings", "GetPriority"), transpiler: defaultPriorityTranspiler);
+                harmony.Patch(Reflection.Method(typeof(Pawn_WorkSettings), "GetPriority"), transpiler: defaultPriorityTranspiler);
             }
             if (PatchSettings.Patch_EnableAndInitialize)
             {
-                harmony.Patch(Reflection.Method("Pawn_WorkSettings", "EnableAndInitialize"), transpiler: defaultPriorityTranspiler);
+                harmony.Patch(Reflection.Method(typeof(Pawn_WorkSettings), "EnableAndInitialize"), transpiler: defaultPriorityTranspiler);
             }
 
-            harmony.Patch(Reflection.Method("Autotests_ColonyMaker", "MakeColonists"), transpiler: defaultPriorityTranspiler);
-            harmony.Patch(Reflection.Method("GameInitData", "PrepForMapGen"), transpiler: defaultPriorityTranspiler);
+            harmony.Patch(Reflection.Method(typeof(Autotests_ColonyMaker), "MakeColonists"), transpiler: defaultPriorityTranspiler);
+            harmony.Patch(Reflection.Method(typeof(GameInitData), "PrepForMapGen"), transpiler: defaultPriorityTranspiler);
 
-            harmony.Patch(Reflection.Method("Pawn_WorkSettings", "SetPriority"), transpiler: PatchHelper.Method(() => MaximumPriorityTranspiler(null, null)));
-            harmony.Patch(Reflection.Method("PawnColumnWorker_WorkPriority", "HeaderClicked"), transpiler: PatchHelper.Method(() => PriorityTranspiler(null, null)));
+            harmony.Patch(Reflection.Method(typeof(Pawn_WorkSettings), "SetPriority"), transpiler: PatchHelper.Method(() => MaximumPriorityTranspiler(null, null)));
+            harmony.Patch(Reflection.Method(typeof(PawnColumnWorker_WorkPriority), "HeaderClicked"), transpiler: PatchHelper.Method(() => PriorityTranspiler(null, null)));
 
-            harmony.Patch(Reflection.Method("WidgetsWork", "ColorOfPriority"), transpiler: PatchHelper.Method(() => PriorityColorTranspiler(null, null)));
-            harmony.Patch(Reflection.Method("WidgetsWork", "TipForPawnWorker"), transpiler: PatchHelper.Method(() => TipForPawnWorkerTranspiler(null, null)));
-            harmony.Patch(Reflection.Method("WidgetsWork", "DrawWorkBoxFor"), transpiler: PatchHelper.Method(() => DrawWorkBoxTranspiler(null, null)));
+            harmony.Patch(Reflection.Method(typeof(WidgetsWork), "ColorOfPriority"), transpiler: PatchHelper.Method(() => PriorityColorTranspiler(null, null)));
+            harmony.Patch(Reflection.Method(typeof(WidgetsWork), "TipForPawnWorker"), transpiler: PatchHelper.Method(() => TipForPawnWorkerTranspiler(null, null)));
+            harmony.Patch(Reflection.Method(typeof(WidgetsWork), "DrawWorkBoxFor"), transpiler: PatchHelper.Method(() => DrawWorkBoxTranspiler(null, null)));
 
-            harmony.Patch(Reflection.Constructors("Pawn_WorkSettings").First(), prefix: PatchHelper.Method<Object>((obj) => PriorityPatches.PatchPriorityFields(ref obj)));
+            harmony.Patch(Reflection.Constructors(typeof(Pawn_WorkSettings)).First(), prefix: PatchHelper.Method<Object>((obj) => PriorityPatches.PatchPriorityFields(ref obj)));
 
         }
 

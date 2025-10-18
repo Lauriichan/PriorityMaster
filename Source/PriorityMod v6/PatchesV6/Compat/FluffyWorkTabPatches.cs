@@ -46,11 +46,6 @@ namespace PriorityMod.PatchesV6.Compat
             harmony.Patch(Reflection.Method("WorkTab.WorkPriority", "ExposeData"), transpiler: PatchHelper.Method(() => ExposeDataTranspiler(null, null)));
         }
 
-        public static string PatchedPriorityLabel(int priority)
-        {
-            return DrawingTools.GetTaggedStringFromPriorityString("Priority" +  priority).Colorize(DrawingTools.GetColorFromPriority(priority));
-        }
-
         public static void DoInfoLabel(Listing_Standard listing)
         {
             listing.Label("For priority settings, please check out the configuration of PriorityMaster.");
@@ -156,7 +151,7 @@ namespace PriorityMod.PatchesV6.Compat
         {
             List<CodeInstruction> list = new List<CodeInstruction>();
             list.Add(new CodeInstruction(OpCodes.Ldarg_0));
-            list.Add(new CodeInstruction(OpCodes.Call, Reflection.Method(typeof(FluffyWorkTabPatches), "PatchedPriorityLabel", new Type[] { typeof(int) })));
+            list.Add(new CodeInstruction(OpCodes.Call, Reflection.Method(typeof(PatchHook), "GetPriorityLabel", new Type[] { typeof(int) })));
             list.Add(new CodeInstruction(OpCodes.Ret));
             return list;
         }

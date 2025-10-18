@@ -32,17 +32,18 @@ namespace PriorityMod.Core
             settings = GetSettings<PrioritySettings>();
 
             DrawingTools.UpdateColors();
-                
+
             harmony = new Harmony(MOD_ID);
 
             RestartPatches.Apply(harmony);
 
+            UIPatches.Apply(harmony);
+            PriorityPatches.Apply(harmony);
+
             CentricWorkPatches.Apply(harmony);
             FluffyWorkTabPatches.Apply(harmony);
             PlugAndPlayJoinerPatches.Apply(harmony);
-
-            UIPatches.Apply(harmony);
-            PriorityPatches.Apply(harmony);
+            MechWorkTabPatches.Apply(harmony);
 
             MultiplayerCompat.Initialize(harmony);
         }

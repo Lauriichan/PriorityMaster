@@ -34,6 +34,7 @@ Compatible with:
 - Pawn Centric Work Priorities
 - Fluffy's Work Tab
 - Plug And Play Joiner
+- Mech Work Tab
 
 Special thanks to:
 - [@SokyranTheDragon](https://github.com/SokyranTheDragon/) for helping me to understand the MP synchronization, couldn't have done it without them.
