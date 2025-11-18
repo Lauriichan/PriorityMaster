@@ -37,13 +37,13 @@ namespace PriorityMod.Core
 
             RestartPatches.Apply(harmony);
 
-            UIPatches.Apply(harmony);
-            PriorityPatches.Apply(harmony);
-
             CentricWorkPatches.Apply(harmony);
             FluffyWorkTabPatches.Apply(harmony);
             PlugAndPlayJoinerPatches.Apply(harmony);
             MechWorkTabPatches.Apply(harmony);
+
+            UIPatches.Apply(harmony);
+            PriorityPatches.Apply(harmony);
 
             MultiplayerCompat.Initialize(harmony);
         }
